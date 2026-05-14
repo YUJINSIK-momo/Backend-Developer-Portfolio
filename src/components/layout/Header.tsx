@@ -10,6 +10,7 @@ const navItems = [
   { to: "/llm-flow", label: "LLM Flow" },
   { to: "/tech-stack", label: "Tech Stack" },
   { to: "/glossary", label: "PM 용어사전" },
+  { to: "/aws-infra", label: "AWS 인프라" },
 ]
 
 export function Header() {
