@@ -10,6 +10,7 @@ import { TechStackPage } from "./pages/TechStackPage"
 import { GlossaryPage } from "./pages/GlossaryPage"
 import { AwsInfraPage } from "./pages/AwsInfraPage"
 import { TestEnvPage } from "./pages/TestEnvPage"
+import { SecurityPage } from "./pages/SecurityPage"
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
             <Route path="/glossary" element={<GlossaryPage />} />
             <Route path="/aws-infra" element={<AwsInfraPage />} />
             <Route path="/test-env" element={<TestEnvPage />} />
+            <Route path="/security" element={<SecurityPage />} />
           </Routes>
         </main>
         <Footer />

@@ -12,6 +12,7 @@ const navItems = [
   { to: "/glossary", label: "PM 용어사전" },
   { to: "/aws-infra", label: "AWS 인프라" },
   { to: "/test-env", label: "테스트 환경" },
+  { to: "/security", label: "보안/장애 대응" },
 ]
 
 export function Header() {
