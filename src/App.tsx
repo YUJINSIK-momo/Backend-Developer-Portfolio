@@ -9,6 +9,7 @@ import { LLMFlowPage } from "./pages/LLMFlowPage"
 import { TechStackPage } from "./pages/TechStackPage"
 import { GlossaryPage } from "./pages/GlossaryPage"
 import { AwsInfraPage } from "./pages/AwsInfraPage"
+import { TestEnvPage } from "./pages/TestEnvPage"
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/tech-stack" element={<TechStackPage />} />
             <Route path="/glossary" element={<GlossaryPage />} />
             <Route path="/aws-infra" element={<AwsInfraPage />} />
+            <Route path="/test-env" element={<TestEnvPage />} />
           </Routes>
         </main>
         <Footer />

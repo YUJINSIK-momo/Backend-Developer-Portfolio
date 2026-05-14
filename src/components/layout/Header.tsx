@@ -11,6 +11,7 @@ const navItems = [
   { to: "/tech-stack", label: "Tech Stack" },
   { to: "/glossary", label: "PM 용어사전" },
   { to: "/aws-infra", label: "AWS 인프라" },
+  { to: "/test-env", label: "테스트 환경" },
 ]
 
 export function Header() {
