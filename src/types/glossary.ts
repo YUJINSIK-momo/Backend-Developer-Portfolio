@@ -4,6 +4,7 @@ export type DifficultyLevel = "beginner" | "intermediate" | "advanced"
 export interface GlossaryTerm {
   id: string
   term: string
+  pronunciation?: string
   category: GlossaryCategory
   difficulty: DifficultyLevel
   definition: string

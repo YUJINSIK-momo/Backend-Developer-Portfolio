@@ -5,6 +5,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "server",
     term: "서버 (Server)",
+    pronunciation: "써버",
     category: "server",
     difficulty: "beginner",
     definition: "요청을 받아 처리하고 응답을 돌려주는 컴퓨터/프로세스",
@@ -16,6 +17,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "api",
     term: "API",
+    pronunciation: "에이피아이",
     category: "server",
     difficulty: "beginner",
     definition: "프론트와 백엔드가 데이터를 주고받는 약속된 창구",
@@ -27,6 +29,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "rest-api",
     term: "REST API",
+    pronunciation: "레스트 에이피아이",
     category: "server",
     difficulty: "beginner",
     definition: "HTTP 방식으로 자원을 CRUD 하는 표준적인 API 형태",
@@ -38,6 +41,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "database",
     term: "데이터베이스 (DB)",
+    pronunciation: "데이터베이스 · 디비",
     category: "server",
     difficulty: "beginner",
     definition: "데이터를 영구적으로 저장하는 창고",
@@ -49,6 +53,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "cache",
     term: "캐시 (Cache)",
+    pronunciation: "캐시",
     category: "server",
     difficulty: "intermediate",
     definition: "자주 쓰는 데이터를 빠르게 꺼낼 수 있도록 임시 저장",
@@ -60,6 +65,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "authentication",
     term: "인증 (Authentication)",
+    pronunciation: "어센티케이션",
     category: "server",
     difficulty: "beginner",
     definition: "사용자가 누구인지 확인하는 과정",
@@ -71,6 +77,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "authorization",
     term: "인가 (Authorization)",
+    pronunciation: "오서라이제이션",
     category: "server",
     difficulty: "intermediate",
     definition: "인증된 사용자가 무엇을 할 수 있는지 권한 확인",
@@ -82,6 +89,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "jwt",
     term: "JWT",
+    pronunciation: "제이더블유티 (줘트)",
     category: "server",
     difficulty: "intermediate",
     definition: "로그인 상태를 증명하는 암호화된 토큰 (JSON Web Token)",
@@ -93,6 +101,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "middleware",
     term: "미들웨어 (Middleware)",
+    pronunciation: "미들웨어",
     category: "server",
     difficulty: "intermediate",
     definition: "요청이 컨트롤러에 도달하기 전 중간에서 처리하는 로직",
@@ -104,6 +113,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "load-balancer",
     term: "로드밸런서 (Load Balancer)",
+    pronunciation: "로드 밸런서",
     category: "server",
     difficulty: "intermediate",
     definition: "여러 서버에 요청을 골고루 분산시키는 장치",
@@ -115,6 +125,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "docker",
     term: "Docker",
+    pronunciation: "도커",
     category: "server",
     difficulty: "intermediate",
     definition: "앱 실행 환경을 컨테이너로 묶어 어디서든 동일하게 실행",
@@ -126,6 +137,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "ci-cd",
     term: "CI/CD",
+    pronunciation: "씨아이/씨디",
     category: "server",
     difficulty: "intermediate",
     definition: "코드 변경 시 자동으로 테스트하고 배포하는 파이프라인",
@@ -137,6 +149,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "message-queue",
     term: "Message Queue",
+    pronunciation: "메시지 큐",
     category: "server",
     difficulty: "advanced",
     definition: "처리할 작업을 순서대로 쌓아두고 순차 처리하는 구조",
@@ -148,6 +161,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "websocket",
     term: "WebSocket",
+    pronunciation: "웹소켓",
     category: "server",
     difficulty: "intermediate",
     definition: "연결을 끊지 않고 서버↔클라이언트가 실시간으로 통신",
@@ -161,6 +175,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "frontend",
     term: "프론트엔드",
+    pronunciation: "프론트엔드",
     category: "frontend",
     difficulty: "beginner",
     definition: "사용자가 직접 보고 상호작용하는 화면 영역",
@@ -172,6 +187,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "react",
     term: "React",
+    pronunciation: "리액트",
     category: "frontend",
     difficulty: "beginner",
     definition: "UI를 컴포넌트 단위로 만드는 JavaScript 라이브러리",
@@ -183,6 +199,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "component",
     term: "컴포넌트 (Component)",
+    pronunciation: "컴포넌트",
     category: "frontend",
     difficulty: "beginner",
     definition: "재사용 가능한 UI 조각",
@@ -194,6 +211,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "state",
     term: "상태 (State)",
+    pronunciation: "스테이트",
     category: "frontend",
     difficulty: "intermediate",
     definition: "컴포넌트가 기억하고 있는 현재 데이터",
@@ -205,6 +223,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "rendering",
     term: "렌더링 (Rendering)",
+    pronunciation: "렌더링",
     category: "frontend",
     difficulty: "intermediate",
     definition: "데이터를 받아 화면에 시각적으로 그려내는 과정",
@@ -215,7 +234,8 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "spa",
-    term: "SPA (Single Page App)",
+    term: "SPA",
+    pronunciation: "에스피에이 (Single Page App)",
     category: "frontend",
     difficulty: "intermediate",
     definition: "페이지 전환 없이 한 페이지 내에서 화면이 교체되는 방식",
@@ -226,7 +246,8 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "ssr",
-    term: "SSR (Server Side Rendering)",
+    term: "SSR",
+    pronunciation: "에스에스알 (Server Side Rendering)",
     category: "frontend",
     difficulty: "intermediate",
     definition: "서버에서 HTML을 완성해서 브라우저에 전달",
@@ -237,7 +258,8 @@ export const glossaryTerms: GlossaryTerm[] = [
   },
   {
     id: "csr",
-    term: "CSR (Client Side Rendering)",
+    term: "CSR",
+    pronunciation: "씨에스알 (Client Side Rendering)",
     category: "frontend",
     difficulty: "intermediate",
     definition: "브라우저에서 JavaScript로 직접 화면을 그림",
@@ -249,6 +271,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "cors",
     term: "CORS",
+    pronunciation: "코스 (Cross-Origin Resource Sharing)",
     category: "frontend",
     difficulty: "advanced",
     definition: "다른 도메인 간 요청을 허용할지 브라우저가 제어하는 보안 정책",
@@ -262,6 +285,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "llm",
     term: "LLM",
+    pronunciation: "엘엘엠 (Large Language Model)",
     category: "llm",
     difficulty: "beginner",
     definition: "대량의 텍스트로 학습한 대형 언어 예측 모델",
@@ -273,6 +297,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "prompt",
     term: "Prompt",
+    pronunciation: "프롬프트",
     category: "llm",
     difficulty: "beginner",
     definition: "모델에게 보내는 입력 지시문",
@@ -284,6 +309,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "token",
     term: "Token",
+    pronunciation: "토큰",
     category: "llm",
     difficulty: "intermediate",
     definition: "텍스트를 처리하는 최소 단위 (단어보다 작을 수 있음)",
@@ -295,6 +321,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "context-window",
     term: "Context Window",
+    pronunciation: "컨텍스트 윈도우",
     category: "llm",
     difficulty: "intermediate",
     definition: "모델이 한 번에 읽을 수 있는 토큰 최대량",
@@ -306,6 +333,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "hallucination",
     term: "Hallucination",
+    pronunciation: "할루시네이션",
     category: "llm",
     difficulty: "intermediate",
     definition: "모델이 사실이 아닌 내용을 자신 있게 말하는 현상",
@@ -317,6 +345,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "rag",
     term: "RAG",
+    pronunciation: "래그 (Retrieval-Augmented Generation)",
     category: "llm",
     difficulty: "advanced",
     definition: "외부 문서를 검색해 모델 응답에 주입하는 기법",
@@ -328,6 +357,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "fine-tuning",
     term: "Fine-tuning",
+    pronunciation: "파인튜닝",
     category: "llm",
     difficulty: "advanced",
     definition: "특정 도메인 데이터로 모델을 추가 학습시키는 과정",
@@ -339,6 +369,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "temperature",
     term: "Temperature",
+    pronunciation: "템퍼러처",
     category: "llm",
     difficulty: "intermediate",
     definition: "응답의 창의성/무작위성 수치 (0=정확, 1=창의적)",
@@ -350,6 +381,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "streaming",
     term: "Streaming",
+    pronunciation: "스트리밍",
     category: "llm",
     difficulty: "intermediate",
     definition: "응답을 한 번에 보내지 않고 생성되는 즉시 전송",
@@ -361,6 +393,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "embedding",
     term: "Embedding",
+    pronunciation: "임베딩",
     category: "llm",
     difficulty: "advanced",
     definition: "텍스트를 숫자 벡터로 변환해 의미를 수치화",
@@ -372,6 +405,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     id: "system-prompt",
     term: "System Prompt",
+    pronunciation: "시스템 프롬프트",
     category: "llm",
     difficulty: "intermediate",
     definition: "모델의 역할과 규칙을 정의하는 숨겨진 초기 지시문",

@@ -147,6 +147,11 @@ export function GlossaryPage() {
                     <span className="text-sm">{catConf.emoji}</span>
                     <h3 className="text-sm font-bold text-white">{term.term}</h3>
                   </div>
+                  {term.pronunciation && (
+                    <div className="text-xs text-slate-500 mt-0.5 ml-6">
+                      🔊 {term.pronunciation}
+                    </div>
+                  )}
                   <div className="flex items-center gap-1.5 mt-1">
                     <Badge variant={catConf.badge}>{catConf.label}</Badge>
                     <Badge variant={diffConf.variant}>{diffConf.label}</Badge>
