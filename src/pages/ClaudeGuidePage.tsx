@@ -317,7 +317,7 @@ export function ClaudeGuidePage() {
           </a>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2">
           {[
             { icon: FileText, label: "CLAUDE.md", color: "text-green-400", border: "border-green-500/30", bg: "bg-green-500/10" },
             { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
@@ -325,6 +325,7 @@ export function ClaudeGuidePage() {
             { icon: Terminal, label: "slash commands × 2", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
             { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
             { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
+            { icon: Layers, label: ".agents/skills × 6", color: "text-fuchsia-400", border: "border-fuchsia-500/30", bg: "bg-fuchsia-500/10" },
           ].map((item) => {
             const Icon = item.icon
             return (
@@ -334,6 +335,21 @@ export function ClaudeGuidePage() {
               </div>
             )
           })}
+        </div>
+
+        <div className="mt-3 p-3 rounded-lg bg-fuchsia-500/5 border border-fuchsia-500/20">
+          <div className="text-xs font-semibold text-fuchsia-300 mb-1.5 flex items-center gap-1.5">
+            <Layers size={11} />
+            포함된 스킬 (.agents/skills/)
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 text-[10px] text-slate-400">
+            <div>• andrej-karpathy-skills</div>
+            <div>• find-skills</div>
+            <div>• frontend-design</div>
+            <div>• karpathy-guidelines</div>
+            <div>• vercel-react-best-practices</div>
+            <div>• web-design-guidelines</div>
+          </div>
         </div>
 
         <div className="mt-4 p-3 rounded-lg bg-slate-900/40 border border-slate-700/40">
