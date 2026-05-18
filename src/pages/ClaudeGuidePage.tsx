@@ -15,6 +15,9 @@ import {
   Terminal,
   BookOpen,
   GitBranch,
+  Download,
+  Package,
+  Settings,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -284,6 +287,67 @@ export function ClaudeGuidePage() {
           프로젝트 시작 전에 어떤 폴더 구조로, 어떤 문서를 먼저 만들고, 어떤 프롬프트로 Claude에게 일을 시킬지 정리합니다.
           복잡한 규칙을 외우는 대신 다섯 개 파일과 여섯 단계 시작 순서로 단순화합니다.
         </p>
+      </div>
+
+      {/* 다운로드 CTA */}
+      <div className="rounded-xl border border-purple-500/30 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-cyan-500/10 p-5 sm:p-6">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+          <div className="flex items-start gap-3 flex-1">
+            <div className="w-11 h-11 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center shrink-0">
+              <Package size={20} className="text-purple-300" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="text-base font-bold text-white">Claude Starter Kit</span>
+                <Badge variant="purple">즉시 사용 가능</Badge>
+              </div>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                아래 5가지 파일·폴더 구조를 한 번에 받아 본인 프로젝트 루트에 풀면 끝입니다.
+                CLAUDE.md 템플릿, docs/ 4종, .claude/ 설정(권한·슬래시 명령·에이전트), phase 템플릿 모두 포함.
+              </p>
+            </div>
+          </div>
+          <a
+            href={`${import.meta.env.BASE_URL}templates/claude-starter-kit.zip`}
+            download="claude-starter-kit.zip"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-purple-500/25 border border-purple-400/50 hover:bg-purple-500/40 hover:border-purple-300/60 text-purple-100 text-sm font-semibold transition-all shrink-0 shadow-lg shadow-purple-500/10"
+          >
+            <Download size={15} />
+            ZIP 다운로드 (스타터 키트)
+          </a>
+        </div>
+
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+          {[
+            { icon: FileText, label: "CLAUDE.md", color: "text-green-400", border: "border-green-500/30", bg: "bg-green-500/10" },
+            { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
+            { icon: Settings, label: ".claude/settings.json", color: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/10" },
+            { icon: Terminal, label: "slash commands × 2", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
+            { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
+            { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
+          ].map((item) => {
+            const Icon = item.icon
+            return (
+              <div key={item.label} className={`rounded-lg border ${item.border} ${item.bg} px-2.5 py-2 flex items-center gap-1.5`}>
+                <Icon size={11} className={`${item.color} shrink-0`} />
+                <span className={`text-[10px] font-medium ${item.color} truncate`}>{item.label}</span>
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="mt-4 p-3 rounded-lg bg-slate-900/40 border border-slate-700/40">
+          <div className="text-xs font-semibold text-slate-300 mb-2 flex items-center gap-1.5">
+            <Terminal size={11} className="text-cyan-400" />
+            사용 순서 (5분)
+          </div>
+          <div className="space-y-1 text-xs text-slate-400 font-mono leading-relaxed">
+            <div><span className="text-slate-600">1.</span> unzip claude-starter-kit.zip</div>
+            <div><span className="text-slate-600">2.</span> cp -r claude-starter-kit/. /your-project/</div>
+            <div><span className="text-slate-600">3.</span> CLAUDE.md 본인 프로젝트에 맞게 수정</div>
+            <div><span className="text-slate-600">4.</span> claude (실행) → "phases/phase-01-setup.md 확인하고 시작해줘"</div>
+          </div>
+        </div>
       </div>
 
       {/* 핵심 5가지 파일 */}
