@@ -13,6 +13,8 @@ const navItems = [
   { to: "/aws-infra", label: "AWS 인프라" },
   { to: "/test-env", label: "테스트 환경" },
   { to: "/security", label: "보안/장애 대응" },
+  { to: "/claude-guide", label: "Claude Code 가이드" },
+  { to: "/claude-advanced", label: "Claude Advanced" },
 ]
 
 export function Header() {

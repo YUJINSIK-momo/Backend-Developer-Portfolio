@@ -11,6 +11,8 @@ import { GlossaryPage } from "./pages/GlossaryPage"
 import { AwsInfraPage } from "./pages/AwsInfraPage"
 import { TestEnvPage } from "./pages/TestEnvPage"
 import { SecurityPage } from "./pages/SecurityPage"
+import { ClaudeGuidePage } from "./pages/ClaudeGuidePage"
+import { ClaudeAdvancedPage } from "./pages/ClaudeAdvancedPage"
 
 export default function App() {
   return (
@@ -29,6 +31,8 @@ export default function App() {
             <Route path="/aws-infra" element={<AwsInfraPage />} />
             <Route path="/test-env" element={<TestEnvPage />} />
             <Route path="/security" element={<SecurityPage />} />
+            <Route path="/claude-guide" element={<ClaudeGuidePage />} />
+            <Route path="/claude-advanced" element={<ClaudeAdvancedPage />} />
           </Routes>
         </main>
         <Footer />
