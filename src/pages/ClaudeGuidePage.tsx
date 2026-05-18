@@ -18,6 +18,8 @@ import {
   Download,
   Package,
   Settings,
+  ShieldCheck,
+  GitMerge,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -317,7 +319,7 @@ export function ClaudeGuidePage() {
           </a>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2">
+        <div className="mt-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-2">
           {[
             { icon: FileText, label: "CLAUDE.md", color: "text-green-400", border: "border-green-500/30", bg: "bg-green-500/10" },
             { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
@@ -326,6 +328,8 @@ export function ClaudeGuidePage() {
             { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
             { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
             { icon: Layers, label: ".agents/skills × 6", color: "text-fuchsia-400", border: "border-fuchsia-500/30", bg: "bg-fuchsia-500/10" },
+            { icon: ShieldCheck, label: "scripts/verify (sh + ps1)", color: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10" },
+            { icon: GitMerge, label: "GitHub Actions verify.yml", color: "text-sky-400", border: "border-sky-500/30", bg: "bg-sky-500/10" },
           ].map((item) => {
             const Icon = item.icon
             return (
@@ -360,8 +364,13 @@ export function ClaudeGuidePage() {
           <div className="space-y-1 text-xs text-slate-400 font-mono leading-relaxed">
             <div><span className="text-slate-600">1.</span> unzip claude-starter-kit.zip</div>
             <div><span className="text-slate-600">2.</span> cp -r claude-starter-kit/. /your-project/</div>
-            <div><span className="text-slate-600">3.</span> CLAUDE.md 본인 프로젝트에 맞게 수정</div>
-            <div><span className="text-slate-600">4.</span> claude (실행) → "phases/phase-01-setup.md 확인하고 시작해줘"</div>
+            <div><span className="text-slate-600">3.</span> package.json에 "verify": "sh scripts/verify.sh" 추가</div>
+            <div><span className="text-slate-600">4.</span> CLAUDE.md 본인 프로젝트에 맞게 수정</div>
+            <div><span className="text-slate-600">5.</span> claude (실행) → "phases/phase-01-setup.md 확인하고 시작해줘"</div>
+          </div>
+          <div className="mt-2 pt-2 border-t border-slate-700/40 text-[10px] text-emerald-300/80 flex items-center gap-1.5">
+            <ShieldCheck size={10} />
+            verify가 활성화되면 Stop hook이 매 작업 종료마다 lint+build+test 자동 검증
           </div>
         </div>
       </div>
