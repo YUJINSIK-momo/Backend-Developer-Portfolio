@@ -149,6 +149,28 @@ export function DashboardPage() {
           실시간 소켓 통신부터 마이크로서비스 아키텍처, LLM 추론 파이프라인까지 —
           백엔드 시스템이 어떻게 동작하는지 시각적으로 이해할 수 있는 포트폴리오입니다.
         </p>
+
+        {/* 포지셔닝 한 줄 */}
+        <div className="rounded-xl border border-cyan-500/30 bg-gradient-to-r from-cyan-500/5 via-blue-500/5 to-purple-500/5 p-4 max-w-3xl">
+          <div className="flex items-start gap-3">
+            <span className="text-2xl">🇯🇵</span>
+            <div className="flex-1">
+              <p className="text-sm text-white leading-relaxed">
+                <span className="font-semibold text-cyan-400">유진식 (Jinsik Yoo)</span> ·
+                <span className="text-slate-300"> 일본어(N1) 가능 · LINE·Slack·WooCommerce·GPT 기반</span>
+                <span className="font-semibold text-purple-400"> 업무 자동화 시스템</span>을 설계·개발하는 백엔드 개발자.
+              </p>
+              <Link
+                to="/about"
+                className="inline-flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 mt-1.5 font-medium"
+              >
+                <span>About 더 보기</span>
+                <ArrowRight size={11} />
+              </Link>
+            </div>
+          </div>
+        </div>
+
         <div className="flex flex-wrap gap-2">
           {["Node.js", "NestJS", "PostgreSQL", "Redis", "WebSocket", "Docker", "AWS"].map((tech) => (
             <Badge key={tech} variant="blue">{tech}</Badge>
