@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Backend Architecture Portfolio</title>
+    <script type="text/javascript">
+      // GitHub Pages SPA 404 redirect (rafrex/spa-github-pages 기반)
+      // /Backend-Developer-Portfolio/<route> 로 들어왔을 때 404를 만나면
+      // /Backend-Developer-Portfolio/?p=/<route> 로 변환해서 index.html로 보냄.
+      // index.html의 스크립트가 다시 원래 URL로 history.replaceState.
+      var segmentCount = 1
+      var l = window.location
+      l.replace(
+        l.protocol + "//" + l.hostname + (l.port ? ":" + l.port : "") +
+        l.pathname.split("/").slice(0, 1 + segmentCount).join("/") + "/?p=/" +
+        l.pathname.slice(1).split("/").slice(segmentCount).join("/").replace(/&/g, "~and~") +
+        (l.search ? "&q=" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+        l.hash
+      )
+    </script>
+  </head>
+  <body></body>
+</html>
