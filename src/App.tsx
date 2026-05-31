@@ -13,6 +13,8 @@ import { TestEnvPage } from "./pages/TestEnvPage"
 import { SecurityPage } from "./pages/SecurityPage"
 import { ClaudeGuidePage } from "./pages/ClaudeGuidePage"
 import { ClaudeAdvancedPage } from "./pages/ClaudeAdvancedPage"
+import { BackendBasicsPage } from "./pages/BackendBasicsPage"
+import { RoadmapPage } from "./pages/RoadmapPage"
 
 export default function App() {
   return (
@@ -33,6 +35,8 @@ export default function App() {
             <Route path="/security" element={<SecurityPage />} />
             <Route path="/claude-guide" element={<ClaudeGuidePage />} />
             <Route path="/claude-advanced" element={<ClaudeAdvancedPage />} />
+            <Route path="/backend-basics" element={<BackendBasicsPage />} />
+            <Route path="/roadmap" element={<RoadmapPage />} />
           </Routes>
         </main>
         <Footer />

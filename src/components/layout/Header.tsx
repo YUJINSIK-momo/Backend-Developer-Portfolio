@@ -4,6 +4,7 @@ import { useState } from "react"
 
 const navItems = [
   { to: "/", label: "Dashboard", exact: true },
+  { to: "/backend-basics", label: "Basics" },
   { to: "/socket", label: "Socket" },
   { to: "/architecture", label: "Architecture" },
   { to: "/api-flow", label: "API Flow" },
@@ -13,6 +14,7 @@ const navItems = [
   { to: "/aws-infra", label: "AWS 인프라" },
   { to: "/test-env", label: "테스트 환경" },
   { to: "/security", label: "보안/장애" },
+  { to: "/roadmap", label: "Roadmap" },
   { to: "/claude-guide", label: "Claude" },
   { to: "/claude-advanced", label: "Claude Advanced" },
 ]
