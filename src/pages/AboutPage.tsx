@@ -15,8 +15,8 @@ const strengths = [
   },
   {
     icon: Bot,
-    title: "LINE · Slack · GPT 자동화",
-    desc: "메신저 채널과 LLM을 잇는 업무 자동화 흐름 설계 경험.",
+    title: "LINE · Slack · 다양한 AI 툴 자동화",
+    desc: "메신저 채널과 ChatGPT · Claude · Gemini 등 LLM을 상황에 맞게 조합한 업무 자동화 경험.",
     color: "green",
   },
   {
@@ -37,7 +37,7 @@ const techGroups = [
   { label: "Backend", items: ["Node.js", "Express", "NestJS", "TypeScript"], color: "green" },
   { label: "Database", items: ["PostgreSQL", "Prisma", "Redis"], color: "cyan" },
   { label: "Realtime / API", items: ["WebSocket", "Socket.IO", "REST", "Webhook"], color: "blue" },
-  { label: "AI / Automation", items: ["OpenAI GPT", "Claude API", "LINE Messaging", "Slack API"], color: "amber" },
+  { label: "AI / Automation", items: ["ChatGPT", "Claude", "Gemini", "LangChain", "LINE Messaging", "Slack API"], color: "amber" },
   { label: "Frontend", items: ["React", "Vite", "Tailwind CSS"], color: "purple" },
   { label: "Infra / Ops", items: ["AWS EC2", "Cloudflare", "Docker", "GitHub Actions"], color: "pink" },
 ] as const
@@ -65,7 +65,7 @@ export function AboutPage() {
           </h1>
           <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
             <span className="text-blue-400 font-semibold">일본어 커머스·CS 환경</span>을 이해하고,
-            <span className="text-cyan-400 font-semibold"> LINE·Slack·WooCommerce·GPT</span> 기반
+            <span className="text-cyan-400 font-semibold"> LINE·Slack·WooCommerce + 다양한 AI 툴</span>(ChatGPT·Claude·Gemini)을 활용해
             <span className="text-purple-400 font-semibold"> 업무 자동화 시스템</span>을
             설계·개발하는 실무형 백엔드 개발자.
           </p>
@@ -78,7 +78,7 @@ export function AboutPage() {
 
         {/* CTA links */}
         <div className="flex flex-wrap justify-center gap-2 pt-2">
-          <ContactLink href="mailto:ilovebaseballjp@gmail.com" icon={Mail} label="Email" />
+          <ContactLink href="mailto:jinsik2036@gmail.com" icon={Mail} label="Email" />
           <ContactLink href="https://github.com/YUJINSIK-momo" icon={Github} label="GitHub" />
           <ContactLink href="https://www.linkedin.com/in/" icon={Linkedin} label="LinkedIn" />
         </div>
@@ -111,7 +111,7 @@ export function AboutPage() {
               교차점을 직접 설계하고 코드로 구현할 수 있는 개발자.
             </p>
             <p className="text-sm text-slate-400 mt-2 leading-relaxed">
-              비개발자 PM·CS 담당자와도 깊은 대화가 가능하고, Webhook부터 GPT 응답·DB 저장·Slack 알림까지
+              비개발자 PM·CS 담당자와도 깊은 대화가 가능하고, Webhook부터 AI 응답(ChatGPT/Claude/Gemini 중 상황별 선택)·DB 저장·Slack 알림까지
               한 사이클을 혼자 완성합니다.
             </p>
           </div>
@@ -157,7 +157,7 @@ export function AboutPage() {
             color="blue"
             phase="현재"
             title="백엔드 · 자동화 시스템 개발"
-            desc="Node.js · TypeScript · Express · PostgreSQL 기반으로 LINE/Slack/GPT 연동 자동화 구축."
+            desc="Node.js · TypeScript · Express · PostgreSQL 기반으로 LINE/Slack + 다양한 AI 툴(ChatGPT/Claude/Gemini) 연동 자동화 구축."
           />
           <TimelineItem
             icon={Sparkles}
@@ -191,7 +191,7 @@ export function AboutPage() {
             짧은 메시지도 환영합니다.
           </p>
           <div className="flex flex-wrap justify-center gap-2 pt-2">
-            <ContactLink href="mailto:ilovebaseballjp@gmail.com" icon={Mail} label="ilovebaseballjp@gmail.com" />
+            <ContactLink href="mailto:jinsik2036@gmail.com" icon={Mail} label="jinsik2036@gmail.com" />
             <ContactLink href="https://github.com/YUJINSIK-momo" icon={Github} label="@YUJINSIK-momo" />
           </div>
         </div>

@@ -48,7 +48,7 @@ export function BackendBasicsPage() {
         </div>
         <p className="text-slate-400 text-sm leading-relaxed max-w-3xl">
           백엔드 시스템을 만들 때 반드시 알아야 하는 4가지 기본기 — Webhook, Express 라우팅,
-          DB 테이블 설계, SQL CRUD. 화려한 기술보다 이 기초가 흔들리지 않아야 LINE·Slack·GPT
+          DB 테이블 설계, SQL CRUD. 화려한 기술보다 이 기초가 흔들리지 않아야 LINE·Slack·AI 툴
           연동도 명확해집니다.
         </p>
       </div>

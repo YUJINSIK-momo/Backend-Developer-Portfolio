@@ -60,7 +60,7 @@ function MvpSplitSection() {
             goal="혼자 끝까지 만들 수 있는 가장 작은 버전. 데모 가능."
             items={[
               "LINE 메시지 수신 (Webhook)",
-              "GPT API에 그대로 전달",
+              "AI API에 전달 (ChatGPT / Claude / Gemini 중 선택)",
               "응답을 LINE으로 반환",
               "console.log + 파일 로그",
             ]}
@@ -318,12 +318,12 @@ const techDecisions = [
     altReason: "Discord는 사외 협업에 더 가깝고, Teams는 회사 라이선스 없음. Slack이 가장 빠른 길.",
   },
   {
-    tech: "GPT (OpenAI API)",
+    tech: "다양한 AI 툴 (ChatGPT · Claude · Gemini)",
     badge: "AI",
     color: "green" as const,
-    why: "정형 FAQ가 아니라 자연어 문의 분류 + 일본어 응답 생성이 필요해서. 자체 모델은 데이터가 부족.",
-    alt: "Claude / Gemini",
-    altReason: "장문 요약은 Claude가 강함. 일본어 CS는 GPT-4o가 현재 가장 안정적이라 선택.",
+    why: "단일 모델에 락인되지 않고 작업별로 최적 모델을 선택: 일본어 응답은 ChatGPT, 장문 분석은 Claude, 검색·요약은 Gemini.",
+    alt: "단일 벤더 고정",
+    altReason: "벤더 종속·가격 인상·서비스 장애 리스크가 크고, 작업별 강점을 살리지 못함. 다중 벤더 추상화 레이어로 유연하게 운영.",
   },
   {
     tech: "Node.js + Express",
@@ -480,7 +480,7 @@ function PracticeRoadmapSection() {
         <div className="flex items-center gap-2 mb-4">
           <ListChecks size={16} className="text-cyan-400" />
           <h3 className="text-white font-semibold text-sm">
-            목표 시스템: LINE 메시지 → Node.js → GPT → Slack → DB
+            목표 시스템: LINE 메시지 → Node.js → AI (ChatGPT/Claude/Gemini) → Slack → DB
           </h3>
           <Rocket size={14} className="text-orange-400 ml-auto" />
         </div>

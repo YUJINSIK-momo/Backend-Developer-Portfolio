@@ -157,7 +157,7 @@ export function DashboardPage() {
             <div className="flex-1">
               <p className="text-sm text-white leading-relaxed">
                 <span className="font-semibold text-cyan-400">유진식 (Jinsik Yoo)</span> ·
-                <span className="text-slate-300"> 일본어(N1) 가능 · LINE·Slack·WooCommerce·GPT 기반</span>
+                <span className="text-slate-300"> 일본어(N1) 가능 · LINE·Slack·WooCommerce + 다양한 AI 툴(ChatGPT·Claude·Gemini) 기반</span>
                 <span className="font-semibold text-purple-400"> 업무 자동화 시스템</span>을 설계·개발하는 백엔드 개발자.
               </p>
               <Link
