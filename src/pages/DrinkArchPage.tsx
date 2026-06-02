@@ -685,7 +685,7 @@ export function DrinkArchPage() {
           </div>
           <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-500">
             <StatusTag live={true} />
-            <span>Storefront API · PostgreSQL 노드는 실제 구현·배포됨 · 그 외는 확장 설계</span>
+            <span>Storefront API · PostgreSQL 노드는 실제 구현됨(배포 가능) · 그 외는 확장 설계</span>
           </p>
         </div>
       </section>
@@ -929,7 +929,7 @@ export function DrinkArchPage() {
 function StatusTag({ live }: { live: boolean }) {
   return live ? (
     <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border border-green-500/40 bg-green-500/15 text-green-300 align-middle">
-      <span className="w-1.5 h-1.5 rounded-full bg-green-400" /> LIVE
+      <span className="w-1.5 h-1.5 rounded-full bg-green-400" /> 구현됨
     </span>
   ) : (
     <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border border-slate-600/50 bg-slate-600/20 text-slate-400 align-middle">
