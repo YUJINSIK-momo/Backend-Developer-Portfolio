@@ -105,6 +105,7 @@ const stackVersions: StackRow[] = [
 type ServerCard = {
   icon: React.ElementType
   title: string
+  status: "live" | "roadmap"
   role: string
   stack: string
   note: string
@@ -115,7 +116,8 @@ const servers: ServerCard[] = [
   {
     icon: Store,
     title: "Storefront API",
-    role: "고객용 — 상품 조회 · 장바구니 · 주문 · 결제",
+    status: "live",
+    role: "고객용 — 상품 조회 · 주문 생성 (결제는 로드맵)",
     stack: "NestJS · Prisma",
     note: "읽기 트래픽이 많음 → Redis 캐시·CDN을 적극 활용",
     color: "border-blue-500/30 bg-blue-500/5 text-blue-400",
@@ -123,6 +125,7 @@ const servers: ServerCard[] = [
   {
     icon: Users,
     title: "Admin API (어드민 서버군)",
+    status: "roadmap",
     role: "판매자 · MD용 — 상품 등록/수정/관리, 정산 조회",
     stack: "NestJS · Prisma",
     note: "쓰기 위주 → 후처리 이벤트를 발행하는 주체",
@@ -131,6 +134,7 @@ const servers: ServerCard[] = [
   {
     icon: Lock,
     title: "Auth",
+    status: "roadmap",
     role: "JWT 발급·검증, 권한(고객/판매자/MD/관리자) 분리",
     stack: "JWT · Redis(블랙리스트)",
     note: "access/refresh 토큰, 어드민은 IP 제한·MFA로 강화",
@@ -139,6 +143,7 @@ const servers: ServerCard[] = [
   {
     icon: Cpu,
     title: "Worker (비동기 후처리)",
+    status: "roadmap",
     role: "큐 소비 → 색인 · 전송 · 집계 · 이미지 · 알림",
     stack: "Node 워커 · amqplib",
     note: "수평 확장 가능, 실패 시 재시도/DLQ로 격리",
@@ -295,6 +300,7 @@ const stores = [
   {
     icon: Database,
     title: "PostgreSQL",
+    status: "live",
     sub: "관계형 · 트랜잭션 원본",
     desc: "주문 · 상품 · 회원 · 정산 등 정합성이 중요한 데이터의 원본(Source of Truth)",
     color: "border-cyan-500/30 bg-cyan-500/5 text-cyan-400",
@@ -302,6 +308,7 @@ const stores = [
   {
     icon: RefreshCw,
     title: "Redis",
+    status: "roadmap",
     sub: "캐시 · 세션 · 락",
     desc: "응답 캐시, 세션, 분산 락(중복 등록 방지), 멱등 키, 큐 상태 저장",
     color: "border-pink-500/30 bg-pink-500/5 text-pink-400",
@@ -309,6 +316,7 @@ const stores = [
   {
     icon: Cloud,
     title: "S3 + CloudFront",
+    status: "roadmap",
     sub: "이미지 · CDN",
     desc: "상품 이미지 원본/썸네일 저장, presigned URL 업로드, 전 세계 CDN 전송",
     color: "border-amber-500/30 bg-amber-500/5 text-amber-400",
@@ -316,6 +324,7 @@ const stores = [
   {
     icon: Search,
     title: "Elasticsearch",
+    status: "roadmap",
     sub: "검색 색인",
     desc: "상품 검색 색인 — 자동완성 · 필터 · 정렬. 원본은 PG, 검색은 ES로 분리",
     color: "border-purple-500/30 bg-purple-500/5 text-purple-400",
@@ -535,6 +544,10 @@ export function DrinkArchPage() {
           고객 스토어프론트와 판매자·MD용 어드민 서버군, 결제(Toss), 이미지(S3), 검색(Elasticsearch),
           그리고 상품 등록/수정 후의 <span className="text-emerald-400">비동기 후처리 파이프라인</span>까지의 흐름과
           메시지 유실·실패 시 재처리 전략을 정리했습니다.
+          <span className="block mt-2 text-slate-300">
+            이 중 <span className="text-emerald-300 font-medium">1차 MVP(상품 조회 · 주문 생성 — Storefront API + PostgreSQL)</span>는
+            실제로 구현되어 동작하며, 나머지는 트래픽·규모 확장을 가정한 설계입니다.
+          </span>
         </p>
         <div className="flex flex-wrap gap-2 mt-4">
           <a
@@ -556,7 +569,45 @@ export function DrinkArchPage() {
         </div>
       </div>
 
-      {/* 1. 기술 스택 & 버전 선택 (제일 상단) */}
+      {/* 구현 현황 배너 */}
+      <section className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5">
+        <div className="flex items-center gap-2 mb-3 flex-wrap">
+          <CheckCircle2 size={16} className="text-emerald-400" />
+          <h2 className="text-base font-semibold text-white">구현 현황</h2>
+        </div>
+        <p className="text-xs text-slate-400 leading-relaxed mb-4">
+          아래 각 항목에 <StatusTag live={true} /> (실제 구현·동작) 와 <StatusTag live={false} /> (확장 설계) 를 구분해 표시했습니다.
+          1차 MVP는 <span className="text-emerald-300 font-medium">NestJS + PostgreSQL</span> 로 실제 배포 가능한 상태입니다.
+        </p>
+        <div className="grid sm:grid-cols-2 gap-3">
+          <div className="rounded-lg border border-emerald-500/20 bg-navy-900/40 p-3">
+            <div className="flex items-center gap-1.5 mb-2">
+              <StatusTag live={true} />
+              <span className="text-xs font-semibold text-white">구현됨</span>
+            </div>
+            <ul className="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
+              <li>Storefront API — 상품 조회 · 주문 생성</li>
+              <li>PostgreSQL + Prisma — 원본 DB · 주문 가격 스냅샷</li>
+              <li>서버 권위적 가격 계산 · 헬스체크 · CORS</li>
+              <li>Docker(멀티스테이지) · Render 배포 구성</li>
+            </ul>
+          </div>
+          <div className="rounded-lg border border-slate-600/30 bg-navy-900/40 p-3">
+            <div className="flex items-center gap-1.5 mb-2">
+              <StatusTag live={false} />
+              <span className="text-xs font-semibold text-white">확장 로드맵</span>
+            </div>
+            <ul className="text-[11px] text-slate-400 space-y-1 list-disc list-inside">
+              <li>JWT 인증 · 멀티셀러 어드민(Admin API)</li>
+              <li>RabbitMQ 비동기 후처리 (Outbox · DLQ · 멱등)</li>
+              <li>Elasticsearch 검색 색인 · Redis 캐시</li>
+              <li>Toss 결제 · Webhook · S3/CloudFront 이미지</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* 1. 기술 스택 & 버전 선택 */}
       <section className="card">
         <div className="flex items-center gap-2 mb-1">
           <Layers size={16} className="text-blue-400" />
@@ -565,6 +616,10 @@ export function DrinkArchPage() {
         <p className="text-xs text-slate-500 mb-4 leading-relaxed">
           원칙: <span className="text-slate-300">"최신(latest)이 아니라 안정(stable)을 고른다."</span> 운영 환경은
           짝수 LTS · 검증된 라인을 기본으로 하고, 최신 버전은 신기능 대비 호환·운영 리스크를 따져 한 세대 뒤를 선택합니다.
+          <span className="block mt-2 text-slate-400">
+            <span className="text-green-400 font-medium">● MVP 사용 중</span>: Node · TypeScript · NestJS · PostgreSQL · Prisma · Docker
+            &nbsp;/&nbsp; 나머지(Redis · RabbitMQ · Nginx · pnpm)는 확장 단계 도입 예정.
+          </span>
         </p>
         <div className="overflow-x-auto -mx-2 px-2">
           <table className="w-full text-sm">
@@ -628,6 +683,10 @@ export function DrinkArchPage() {
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-orange-400" /> 비동기 큐</span>
             <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-cyan-400" /> 데이터 / 색인</span>
           </div>
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-slate-500">
+            <StatusTag live={true} />
+            <span>Storefront API · PostgreSQL 노드는 실제 구현·배포됨 · 그 외는 확장 설계</span>
+          </p>
         </div>
       </section>
 
@@ -647,7 +706,10 @@ export function DrinkArchPage() {
                     <Icon size={18} />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-white font-semibold text-sm">{s.title}</div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-white font-semibold text-sm">{s.title}</span>
+                      <StatusTag live={s.status === "live"} />
+                    </div>
                     <div className="text-xs text-slate-400 mt-1 leading-relaxed">{s.role}</div>
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {s.stack.split(" · ").map((t) => (
@@ -670,6 +732,7 @@ export function DrinkArchPage() {
         <div className="flex items-center gap-2 mb-4">
           <GitBranch size={16} className="text-green-400" />
           <h2 className="text-base font-semibold text-white">상품 등록/수정 — 동기 vs 비동기 경계</h2>
+          <StatusTag live={false} />
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
@@ -750,6 +813,7 @@ export function DrinkArchPage() {
         <div className="flex items-center gap-2 mb-2">
           <Repeat size={16} className="text-amber-400" />
           <h2 className="text-base font-semibold text-white">메시지 유실 · 처리 실패 시 재처리 전략</h2>
+          <StatusTag live={false} />
         </div>
         <p className="text-xs text-slate-500 mb-4 leading-relaxed">
           어드민 → 워커로 후처리 메시지를 전달할 때 핵심 질문은 <span className="text-slate-300">"메시지가 유실되거나 처리에 실패하면?"</span> 입니다.
@@ -812,6 +876,7 @@ export function DrinkArchPage() {
         <div className="flex items-center gap-2 mb-4">
           <CreditCard size={16} className="text-emerald-400" />
           <h2 className="text-base font-semibold text-white">결제 흐름 (Toss Payments + Webhook)</h2>
+          <StatusTag live={false} />
         </div>
         <div className="card mb-4">
           <ol className="space-y-3">
@@ -846,8 +911,11 @@ export function DrinkArchPage() {
                 <div className={`w-9 h-9 rounded-lg border flex items-center justify-center mb-3 ${s.color}`}>
                   <Icon size={18} />
                 </div>
-                <div className="text-white font-semibold text-sm">{s.title}</div>
-                <div className="text-[11px] font-mono text-slate-500 mb-2">{s.sub}</div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-white font-semibold text-sm">{s.title}</span>
+                  <StatusTag live={s.status === "live"} />
+                </div>
+                <div className="text-[11px] font-mono text-slate-500 mb-2 mt-0.5">{s.sub}</div>
                 <p className="text-xs text-slate-400 leading-relaxed">{s.desc}</p>
               </div>
             )
@@ -855,6 +923,18 @@ export function DrinkArchPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+function StatusTag({ live }: { live: boolean }) {
+  return live ? (
+    <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border border-green-500/40 bg-green-500/15 text-green-300 align-middle">
+      <span className="w-1.5 h-1.5 rounded-full bg-green-400" /> LIVE
+    </span>
+  ) : (
+    <span className="inline-flex items-center gap-1 text-[10px] font-semibold px-1.5 py-0.5 rounded border border-slate-600/50 bg-slate-600/20 text-slate-400 align-middle">
+      설계
+    </span>
   )
 }
 
