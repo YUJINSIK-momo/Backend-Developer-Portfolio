@@ -10,6 +10,7 @@ const isGroup = (e: NavEntry): e is NavGroup => "items" in e
 
 const navItems: NavEntry[] = [
   { to: "/", label: "Dashboard", exact: true },
+  { to: "/drink-architecture", label: "Drink 아키텍처" },
   { to: "/about", label: "About" },
   {
     label: "Backend",

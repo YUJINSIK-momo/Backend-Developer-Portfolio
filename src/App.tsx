@@ -16,6 +16,7 @@ import { ClaudeAdvancedPage } from "./pages/ClaudeAdvancedPage"
 import { BackendBasicsPage } from "./pages/BackendBasicsPage"
 import { RoadmapPage } from "./pages/RoadmapPage"
 import { AboutPage } from "./pages/AboutPage"
+import { DrinkArchPage } from "./pages/DrinkArchPage"
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
+            <Route path="/drink-architecture" element={<DrinkArchPage />} />
             <Route path="/socket" element={<SocketPage />} />
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/api-flow" element={<ApiFlowPage />} />
