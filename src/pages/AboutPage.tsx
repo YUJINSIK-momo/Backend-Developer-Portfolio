@@ -112,6 +112,41 @@ export function AboutPage() {
         </div>
       </section>
 
+      {/* 외부 라이브 프로젝트 / 챗봇 — 최상단 노출 */}
+      <section className="space-y-4">
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-white">라이브 프로젝트</h2>
+          <p className="text-xs text-slate-500 mt-1">직접 만들어 배포한 외부 사이트와 챗봇</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {externalProjects.map((p) => (
+            <ExternalProjectCard key={p.href} {...p} />
+          ))}
+
+          {/* LINE 챗봇 카드 */}
+          <a
+            href="https://line.me/R/ti/p/@118htpvo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group card-hover border border-green-500/20 hover:border-green-500/40 flex flex-col gap-2 transition-all"
+          >
+            <div className="flex items-center gap-2 flex-wrap">
+              <MessageCircle size={16} className="text-green-400" />
+              <h3 className="text-white font-semibold text-sm">LINE 챗봇</h3>
+              <Badge variant="green">Chatbot</Badge>
+            </div>
+            <p className="text-xs text-slate-400 leading-relaxed flex-1">
+              LINE 메시징 기반 챗봇. 친구 추가 후 대화로 동작을 확인할 수 있습니다.
+              <span className="block mt-1 font-mono text-green-400">LINE ID: @118htpvo</span>
+            </p>
+            <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
+              <span>친구 추가</span>
+              <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </a>
+        </div>
+      </section>
+
       {/* 강점 4종 */}
       <section className="space-y-4">
         <div className="text-center">
@@ -207,41 +242,6 @@ export function AboutPage() {
           {projects.map((p) => (
             <ProjectLink key={p.to} {...p} />
           ))}
-        </div>
-      </section>
-
-      {/* 외부 라이브 프로젝트 / 챗봇 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">라이브 프로젝트</h2>
-          <p className="text-xs text-slate-500 mt-1">직접 만들어 배포한 외부 사이트와 챗봇</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {externalProjects.map((p) => (
-            <ExternalProjectCard key={p.href} {...p} />
-          ))}
-
-          {/* LINE 챗봇 카드 */}
-          <a
-            href="https://line.me/R/ti/p/@118htpvo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group card-hover border border-green-500/20 hover:border-green-500/40 flex flex-col gap-2 transition-all"
-          >
-            <div className="flex items-center gap-2 flex-wrap">
-              <MessageCircle size={16} className="text-green-400" />
-              <h3 className="text-white font-semibold text-sm">LINE 챗봇</h3>
-              <Badge variant="green">Chatbot</Badge>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed flex-1">
-              LINE 메시징 기반 챗봇. 친구 추가 후 대화로 동작을 확인할 수 있습니다.
-              <span className="block mt-1 font-mono text-green-400">LINE ID: @118htpvo</span>
-            </p>
-            <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
-              <span>친구 추가</span>
-              <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </a>
         </div>
       </section>
 
