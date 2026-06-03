@@ -59,6 +59,14 @@ const featureCards = [
     color: "pink",
     tag: "Glossary",
   },
+  {
+    icon: Database,
+    title: "빅데이터 & 추천 시스템",
+    description: "수집→저장→처리→분석→활용 파이프라인과 유튜브 추천 알고리즘(후보 생성→랭킹) 구조, 핵심 이론 정리",
+    to: "/big-data",
+    color: "cyan",
+    tag: "Learning",
+  },
 ]
 
 const colorMap: Record<string, string> = {

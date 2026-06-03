@@ -17,6 +17,7 @@ import { BackendBasicsPage } from "./pages/BackendBasicsPage"
 import { RoadmapPage } from "./pages/RoadmapPage"
 import { AboutPage } from "./pages/AboutPage"
 import { DrinkArchPage } from "./pages/DrinkArchPage"
+import { BigDataPage } from "./pages/BigDataPage"
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/drink-architecture" element={<DrinkArchPage />} />
+            <Route path="/big-data" element={<BigDataPage />} />
             <Route path="/socket" element={<SocketPage />} />
             <Route path="/architecture" element={<ArchitecturePage />} />
             <Route path="/api-flow" element={<ApiFlowPage />} />
