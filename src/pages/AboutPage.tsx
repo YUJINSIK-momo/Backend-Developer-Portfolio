@@ -3,6 +3,7 @@ import {
   User, Mail, Github, Linkedin, MapPin, Languages, Sparkles,
   MessageSquare, ShoppingBag, Bot, Workflow, FileCheck2, Radio,
   ArrowRight, Briefcase, GraduationCap, Wrench, Star,
+  ExternalLink, Plane, MessageCircle,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -48,6 +49,33 @@ const projects = [
   { to: "/llm-flow", label: "LLM Flow", desc: "토큰 → 추론 → 스트리밍 파이프라인", icon: Sparkles },
   { to: "/aws-infra", label: "AWS Infra", desc: "EC2 + ALB + RDS + Redis 구성도", icon: Wrench },
   { to: "/roadmap", label: "Dev Roadmap", desc: "MVP 분리 · 기술 선택 기준 · 실습 로드맵", icon: Star },
+] as const
+
+const externalProjects = [
+  {
+    href: "https://yujinsik-momo.github.io/AI-Agent/",
+    label: "AI Agent",
+    desc: "LLM 기반 AI 에이전트 데모 — 대화형으로 작업을 처리하는 인터페이스.",
+    icon: Bot,
+    color: "amber",
+    tag: "AI",
+  },
+  {
+    href: "https://yujinsik-momo.github.io/HR-System-Portfolio/",
+    label: "HR System",
+    desc: "인사·조직 관리 시스템 포트폴리오 — 직원·근태·평가 관리 UI.",
+    icon: Briefcase,
+    color: "purple",
+    tag: "Web App",
+  },
+  {
+    href: "https://yujinsik-momo.github.io/Travel-Website/#/",
+    label: "Travel Website",
+    desc: "여행 정보·예약 웹사이트 — 반응형 프론트엔드.",
+    icon: Plane,
+    color: "cyan",
+    tag: "Frontend",
+  },
 ] as const
 
 export function AboutPage() {
@@ -182,6 +210,41 @@ export function AboutPage() {
         </div>
       </section>
 
+      {/* 외부 라이브 프로젝트 / 챗봇 */}
+      <section className="space-y-4">
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-white">라이브 프로젝트</h2>
+          <p className="text-xs text-slate-500 mt-1">직접 만들어 배포한 외부 사이트와 챗봇</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {externalProjects.map((p) => (
+            <ExternalProjectCard key={p.href} {...p} />
+          ))}
+
+          {/* LINE 챗봇 카드 */}
+          <a
+            href="https://line.me/R/ti/p/@118htpvo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group card-hover border border-green-500/20 hover:border-green-500/40 flex flex-col gap-2 transition-all"
+          >
+            <div className="flex items-center gap-2 flex-wrap">
+              <MessageCircle size={16} className="text-green-400" />
+              <h3 className="text-white font-semibold text-sm">LINE 챗봇</h3>
+              <Badge variant="green">Chatbot</Badge>
+            </div>
+            <p className="text-xs text-slate-400 leading-relaxed flex-1">
+              LINE 메시징 기반 챗봇. 친구 추가 후 대화로 동작을 확인할 수 있습니다.
+              <span className="block mt-1 font-mono text-green-400">LINE ID: @118htpvo</span>
+            </p>
+            <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
+              <span>친구 추가</span>
+              <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </a>
+        </div>
+      </section>
+
       {/* 연락 */}
       <section className="card border-blue-500/30">
         <div className="text-center space-y-3">
@@ -193,6 +256,7 @@ export function AboutPage() {
           <div className="flex flex-wrap justify-center gap-2 pt-2">
             <ContactLink href="mailto:jinsik2036@gmail.com" icon={Mail} label="jinsik2036@gmail.com" />
             <ContactLink href="https://github.com/YUJINSIK-momo" icon={Github} label="@YUJINSIK-momo" />
+            <ContactLink href="https://line.me/R/ti/p/@118htpvo" icon={MessageCircle} label="LINE @118htpvo" />
           </div>
         </div>
       </section>
@@ -331,5 +395,41 @@ function ProjectLink({ to, label, desc, icon: Icon }: {
         <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
       </div>
     </Link>
+  )
+}
+
+const extColorMap = {
+  amber: { border: "border-amber-500/20 hover:border-amber-500/40", icon: "text-amber-400" },
+  purple: { border: "border-purple-500/20 hover:border-purple-500/40", icon: "text-purple-400" },
+  cyan: { border: "border-cyan-500/20 hover:border-cyan-500/40", icon: "text-cyan-400" },
+}
+
+function ExternalProjectCard({ href, label, desc, icon: Icon, color, tag }: {
+  href: string
+  label: string
+  desc: string
+  icon: React.ElementType
+  color: keyof typeof extColorMap
+  tag: string
+}) {
+  const c = extColorMap[color]
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group card-hover border ${c.border} flex flex-col gap-2 transition-all`}
+    >
+      <div className="flex items-center gap-2 flex-wrap">
+        <Icon size={16} className={c.icon} />
+        <h3 className="text-white font-semibold text-sm">{label}</h3>
+        <Badge variant={color}>{tag}</Badge>
+      </div>
+      <p className="text-xs text-slate-400 leading-relaxed flex-1">{desc}</p>
+      <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
+        <span>사이트 열기</span>
+        <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
+      </div>
+    </a>
   )
 }
