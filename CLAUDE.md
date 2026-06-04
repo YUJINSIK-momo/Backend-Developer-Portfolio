@@ -668,3 +668,218 @@ docs: API 흐름 설명 추가
 - [ ] GitHub Pages로 배포 가능하다.
 - [ ] `npm run build`가 성공한다.
 - [ ] 포트폴리오용으로 보기 좋은 UI 완성도를 가진다.
+
+추가 지시사항
+☁️ AWS 인프라 구성 및 사용 기준
+이 프로젝트의 백엔드 서버는 AWS EC2 온디맨드를 기본으로 운영한다.
+트래픽 상황에 따라 로드밸런서 및 오토스케일링 적용 여부를 판단한다.
+기본 구성 (소규모 / 초기)
+사용자
+  ↓
+Route 53 (DNS)
+  ↓
+EC2 온디맨드 (단일 인스턴스)
+  ├─ Node.js / NestJS 서버
+  └─ Nginx (리버스 프록시)
+  ↓
+RDS PostgreSQL (또는 EC2 내 DB)
+  ↓
+ElastiCache Redis (캐시 / 세션)
+
+인스턴스 타입 기준: t3.small ~ t3.medium (개발/스테이징), t3.large 이상 (프로덕션)
+비용 최적화: 예약 인스턴스(Reserved) 또는 Savings Plans 검토
+단일 인스턴스에서 운영 시 헬스체크 + 자동 재시작 필수 (pm2 또는 systemd 사용)
+
+트래픽 증가 시 확장 구성 (중규모)
+사용자
+  ↓
+Route 53
+  ↓
+ALB (Application Load Balancer)
+  ├─ EC2 인스턴스 A (AZ-a)
+  ├─ EC2 인스턴스 B (AZ-b)
+  └─ EC2 인스턴스 C (AZ-c)  ← Auto Scaling Group
+  ↓
+RDS Multi-AZ (읽기 복제본 포함)
+  ↓
+ElastiCache Redis Cluster
+로드밸런서 도입 판단 기준
+상황판단이유DAU 1,000 미만ALB 불필요단일 EC2로 충분, 비용 절감DAU 1,000 ~ 10,000ALB 검토피크 타임 트래픽 분산 필요DAU 10,000 이상ALB + ASG 필수가용성 및 장애 대응 필수소켓 연결 1,000+ 동시ALB + Sticky SessionWebSocket은 연결 유지 필요배포 중단 없이 업데이트 필요ALB + Rolling DeployBlue/Green 또는 Rolling 배포
+EC2 운영 시 필수 체크리스트
+
+ 보안 그룹: 80(HTTP), 443(HTTPS), 22(SSH, 특정 IP만) 포트만 오픈
+ SSH 키페어 .pem 파일 분실 금지 (로컬 + 안전한 저장소 백업)
+ IAM Role 설정: EC2에 직접 Access Key 넣지 않고 Role로 권한 부여
+ CloudWatch 알람: CPU 80% 이상 / 디스크 90% 이상 시 알림
+ 탄력적 IP(Elastic IP) 할당: 인스턴스 재시작 시 IP 변경 방지
+ 스냅샷 자동화: AMI 또는 EBS 스냅샷 주 1회 이상
+
+환경별 인프라 분리 원칙
+dev   → EC2 t3.small 1대 (공용 개발 서버)
+stage → EC2 t3.medium 1대 (프로덕션 동일 환경 검증)
+prod  → EC2 t3.large + ALB (트래픽 기준으로 ASG 추가)
+
+환경별 .env 파일 분리: .env.development / .env.staging / .env.production
+프로덕션 DB와 개발 DB는 반드시 분리
+스테이징 환경은 프로덕션과 동일한 인프라 구성을 최대한 유지
+
+인프라 구축 전체 순서 (처음 세팅할 때)
+1. 도메인 구입 (Route 53 or 가비아/카페24)
+↓
+2. SSL 인증서 발급 (ACM - AWS Certificate Manager)
+↓
+3. EC2 인스턴스 생성 + Nginx 리버스 프록시 설정
+↓
+4. RDS 생성 (PostgreSQL) - 영구 데이터 저장
+↓
+5. ElastiCache Redis 생성 - 캐시 / 세션 / 소켓 상태 저장
+↓
+6. S3 + CloudFront - 정적 파일(이미지, CSS, JS) 분리
+↓
+7. ALB 연결 - 트래픽 증가 시 로드밸런싱
+↓
+8. CI/CD 파이프라인 - GitHub Actions → EC2 자동 배포
+↓
+9. 모니터링 - CloudWatch 알람 + 대시보드
+단계별 판단 기준 및 선택지
+1단계 — 도메인 구입
+옵션특징추천 상황AWS Route 53AWS 내에서 DNS까지 한 번에 관리AWS 인프라 전체를 쓸 때가비아 / 카페24국내 서비스, 한국어 지원, 저렴국내 서비스, 비용 절감CloudflareDNS + CDN + 보안 무료 제공글로벌 서비스, 보안 강화
+
+도메인을 가비아에서 사도 Route 53에 NS 레코드를 연결하면 AWS에서 관리 가능
+
+2단계 — SSL 인증서
+
+AWS ACM(Certificate Manager)에서 무료 발급
+ALB 또는 CloudFront에 붙이면 자동 갱신
+EC2 직접 연결 시에는 Let's Encrypt + Certbot 사용 (90일마다 수동 갱신 필요)
+
+권장: ACM + ALB 조합 → 자동 갱신, 관리 부담 없음
+단일 EC2만 쓸 때: Let's Encrypt (Certbot) 으로 무료 발급
+3단계 — EC2 + Nginx
+nginx# Nginx 리버스 프록시 기본 설정 예시
+server {
+  listen 443 ssl;
+  server_name yourdomain.com;
+
+  location /api {
+    proxy_pass http://localhost:3000;  # Node.js 서버
+  }
+
+  location /socket.io {
+    proxy_pass http://localhost:3000;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";  # WebSocket 필수
+  }
+}
+4단계 — RDS (PostgreSQL)
+항목개발 환경프로덕션 환경인스턴스db.t3.microdb.t3.medium 이상Multi-AZ비활성화활성화 (장애 자동 전환)자동 백업1일7일 이상퍼블릭 접근개발 시 임시 허용비활성화 (EC2에서만 접근)
+
+RDS는 EC2와 동일한 VPC 내 프라이빗 서브넷에 위치시킬 것
+퍼블릭 인터넷에서 직접 접근 불가하도록 보안그룹 설정 필수
+
+5단계 — Redis (ElastiCache)
+
+용도: API 응답 캐싱 / JWT 블랙리스트 / 소켓 룸 상태 / 세션 저장
+인스턴스: cache.t3.micro (소규모), cache.t3.small (중규모)
+EC2와 동일 VPC 내 배치, 외부 접근 차단
+
+6단계 — S3 + CloudFront
+업로드 이미지, 정적 에셋
+  → S3 버킷 (원본 저장)
+  → CloudFront (CDN 배포, 전 세계 엣지 서버 캐싱)
+  → 사용자에게 빠르게 전달
+
+효과:
+- EC2 트래픽 및 부하 감소
+- 이미지 로딩 속도 향상
+- S3 정적 웹 호스팅으로 프론트엔드 배포 가능 (GitHub Pages 대안)
+7단계 — ALB (Application Load Balancer)
+
+도입 시점: DAU 1,000 초과 또는 무중단 배포가 필요할 때
+WebSocket 사용 시 Sticky Session(고정 세션) 활성화 필수
+HTTP → HTTPS 리다이렉트 규칙 ALB에서 처리
+
+8단계 — CI/CD (GitHub Actions)
+yaml# 기본 배포 흐름 예시
+main 브랜치 push
+  → GitHub Actions 트리거
+  → npm test + npm run build
+  → EC2에 SSH 접속
+  → 새 코드 pull + pm2 재시작
+  → 슬랙 알림 (성공 / 실패)
+9단계 — 모니터링 (CloudWatch)
+알람 항목임계값조치EC2 CPU80% 이상 2분 지속슬랙 알림 + 스케일업 검토RDS 스토리지90% 이상즉시 용량 증설ALB 5xx 에러율5% 이상즉시 확인EC2 상태 체크 실패1회자동 재시작 트리거
+AWS 비용 절감 팁
+
+사용하지 않는 개발 EC2는 퇴근 후 중지(Stop) (삭제가 아닌 중지)
+RDS는 개발 환경에서 Multi-AZ 비활성화
+CloudFront + S3로 정적 파일(이미지, CSS, JS) 분리하여 EC2 부하 감소
+비용 이상 감지: AWS Budgets 알람 월 $50 초과 시 이메일 알림 설정
+
+
+🤖 Claude(AI)에게 지시할 때 유용한 규칙
+Claude Code 또는 AI 에이전트를 활용할 때 아래 원칙을 따른다.
+지시 작성 원칙
+
+컨텍스트를 먼저 준다
+
+나쁜 예: "버튼 만들어줘"
+좋은 예: "Dashboard 페이지의 우측 상단에 들어갈 '새로고침' 버튼을 만들어줘. 클릭 시 API를 다시 호출하고 로딩 스피너를 보여줘야 해."
+
+
+출력 형식을 명시한다
+
+"TypeScript 타입 포함해서", "컴포넌트 파일로 분리해서", "주석 포함해서" 등을 명시
+원하는 파일 경로도 함께 제시: src/components/ui/RefreshButton.tsx
+
+
+하나의 지시에 하나의 작업만
+
+여러 기능을 한 번에 요청하면 누락되거나 엉킬 수 있음
+페이지 단위 → 섹션 단위 → 컴포넌트 단위로 쪼개서 지시
+
+
+기존 코드 패턴을 참조시킨다
+
+"기존 Card.tsx 스타일과 동일하게", "ApiFlowPage.tsx의 Step 구조를 참고해서"
+
+
+완료 기준을 함께 제시한다
+
+"hover 시 색상 변경", "모바일에서 세로 정렬", "클릭 시 console.log 출력" 등
+
+
+
+이 프로젝트에서 자주 쓰는 지시 패턴
+# 새 페이지 추가
+"[페이지명]Page.tsx를 추가해줘.
+사이드바 nav에도 항목을 추가하고,
+기존 페이지들과 동일한 레이아웃 구조를 사용해줘.
+mock data는 src/data/[파일명].ts에 분리해서 만들어줘."
+
+# 컴포넌트 수정
+"[컴포넌트명].tsx에서 [기능]을 수정해줘.
+기존 props 타입은 유지하고,
+변경 후 npm run build가 통과해야 해."
+
+# Flow 다이어그램 추가
+"[주제] Flow를 단계별 카드 UI로 만들어줘.
+각 단계는 클릭 시 설명이 펼쳐지는 accordion 형태로 구성하고,
+단계 간 연결은 화살표로 표시해줘."
+
+# AWS 인프라 페이지 추가
+"AWS EC2 기반 인프라 구성도를 시각화하는 페이지를 추가해줘.
+단일 인스턴스 구성과 ALB + ASG 확장 구성을 탭으로 나눠서 보여주고,
+각 컴포넌트(EC2, RDS, Redis, ALB)는 아이콘 카드로 표현해줘."
+코드 리뷰 요청 시
+"아래 코드에서:
+1. TypeScript 타입 누락 여부
+2. 불필요한 재렌더링 가능성
+3. 모바일 레이아웃 문제
+위 3가지를 중점으로 리뷰해줘."
+막혔을 때 디버깅 요청 방법
+"[에러 메시지 전체 붙여넣기]
+위 에러가 발생하는 파일: [파일 경로]
+재현 조건: [어떤 동작을 했을 때]
+시도해본 것: [이미 해본 것]"
