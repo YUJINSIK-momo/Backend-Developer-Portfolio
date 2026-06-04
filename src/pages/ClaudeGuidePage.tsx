@@ -237,7 +237,10 @@ const folderTree = `루트/
 │   │   └── reviewer.md
 │   └── commands/              ← 슬래시 명령
 │       ├── deploy.md          ← /deploy
-│       └── review.md          ← /review
+│       ├── review.md          ← /review
+│       ├── new-project.md     ← /new-project
+│       ├── apply-kit.md       ← /apply-kit
+│       └── phase.md           ← /phase
 ├── docs/
 │   ├── PRD.md                 ← 뭘 만드는지
 │   ├── ARCHITECTURE.md        ← 어떻게 만드는지
@@ -259,6 +262,34 @@ const principles = [
   { rule: "phases/로 진행 상태 추적", detail: "큰 작업은 phase 단위로 쪼개 마크다운 체크리스트로 관리. Claude가 “어디까지 했지?”를 매번 묻지 않게 한다." },
   { rule: "한 지시에 한 작업", detail: "“페이지 추가 + 버그 수정 + 리팩토링” 같은 복합 지시는 누락이 생긴다. 페이지 → 섹션 → 컴포넌트 순으로 쪼개라." },
   { rule: "완료 기준을 함께 적기", detail: "“npm run build 통과, 모바일 깨짐 없음”처럼 구체적 검증 기준을 같이 주면 Claude가 스스로 확인 후 종료한다." },
+]
+
+const slashCommands: { cmd: string; does: string; example: string }[] = [
+  {
+    cmd: "/new-project",
+    does: "빈 프로젝트를 키트 구조로 처음부터 구축",
+    example: "/new-project LINE 챗봇 / Node·NestJS·PostgreSQL / 웹훅 수신·GPT 응답·로그 저장",
+  },
+  {
+    cmd: "/apply-kit",
+    does: "기존 코드를 분석해 키트 적용 + 정리·개선",
+    example: "/apply-kit 백엔드 포트폴리오 / React·TS·Vite",
+  },
+  {
+    cmd: "/phase",
+    does: "목표를 phase 문서로 만들고 체크리스트대로 진행",
+    example: "/phase 소켓 통신 시각화 페이지 추가",
+  },
+  {
+    cmd: "/review",
+    does: "현재 변경사항 코드 리뷰 (타입·성능·모바일·보안)",
+    example: "/review",
+  },
+  {
+    cmd: "/deploy",
+    does: "lint·build 검증 후 커밋·푸시",
+    example: "/deploy",
+  },
 ]
 
 export function ClaudeGuidePage() {
@@ -324,7 +355,7 @@ export function ClaudeGuidePage() {
             { icon: FileText, label: "CLAUDE.md", color: "text-green-400", border: "border-green-500/30", bg: "bg-green-500/10" },
             { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
             { icon: Settings, label: ".claude/settings.json", color: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/10" },
-            { icon: Terminal, label: "slash commands × 2", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
+            { icon: Terminal, label: "slash commands × 5", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
             { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
             { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
             { icon: Layers, label: ".agents/skills × 6", color: "text-fuchsia-400", border: "border-fuchsia-500/30", bg: "bg-fuchsia-500/10" },
@@ -339,6 +370,20 @@ export function ClaudeGuidePage() {
               </div>
             )
           })}
+        </div>
+
+        <div className="mt-3 p-3 rounded-lg bg-pink-500/5 border border-pink-500/20">
+          <div className="text-xs font-semibold text-pink-300 mb-2 flex items-center gap-1.5">
+            <Terminal size={11} />
+            포함된 슬래시 명령 (.claude/commands/)
+          </div>
+          <div className="space-y-1 text-[10px] text-slate-400 leading-relaxed">
+            <div><span className="text-pink-300 font-mono">/new-project</span> — 빈 프로젝트를 키트 구조로 처음부터 구축</div>
+            <div><span className="text-pink-300 font-mono">/apply-kit</span> — 기존 코드를 분석해 키트 적용 + 정리·개선</div>
+            <div><span className="text-pink-300 font-mono">/phase</span> — 목표를 phase 문서로 만들고 체크리스트대로 진행</div>
+            <div><span className="text-pink-300 font-mono">/review</span> — 현재 변경사항 코드 리뷰</div>
+            <div><span className="text-pink-300 font-mono">/deploy</span> — lint·build 검증 후 커밋·푸쉬</div>
+          </div>
         </div>
 
         <div className="mt-3 p-3 rounded-lg bg-fuchsia-500/5 border border-fuchsia-500/20">
@@ -559,6 +604,53 @@ export function ClaudeGuidePage() {
             {prompt.template}
           </div>
         </div>
+      </div>
+
+      {/* 슬래시 명령 사용 예시 */}
+      <div>
+        <h2 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+          <Terminal size={16} className="text-pink-400" />
+          슬래시 명령 — 사용 예시
+        </h2>
+        <p className="text-xs text-slate-500 mb-4">
+          키트의 <span className="font-mono text-slate-400">.claude/commands/</span>에 들어 있는 5개 명령. 예시는 복사해서 바로 쓸 수 있습니다.
+        </p>
+
+        <div className="rounded-xl border border-slate-700/40 overflow-hidden">
+          <div className="hidden sm:grid grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)_minmax(0,1.5fr)] gap-2 px-4 py-2.5 bg-slate-800/60 border-b border-slate-700/40 text-[11px] font-bold text-slate-400">
+            <div>명령</div>
+            <div>하는 일</div>
+            <div>예시</div>
+          </div>
+          {slashCommands.map((row, idx) => (
+            <div
+              key={idx}
+              className="grid grid-cols-1 sm:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)_minmax(0,1.5fr)] gap-1.5 sm:gap-2 px-4 py-3 border-b border-slate-700/30 last:border-b-0 bg-slate-900/30 sm:items-center"
+            >
+              <code className="text-xs text-pink-300 font-mono">{row.cmd}</code>
+              <div className="text-xs text-slate-400">{row.does}</div>
+              <div className="flex items-center justify-between gap-2 min-w-0">
+                <code className="text-xs text-slate-300 font-mono break-all">{row.example}</code>
+                <button
+                  onClick={() => copy(row.example, `slash-${idx}`)}
+                  className="shrink-0 text-slate-500 hover:text-slate-200 transition-colors"
+                  aria-label="복사"
+                >
+                  {copiedId === `slash-${idx}` ? (
+                    <Check size={13} className="text-green-400" />
+                  ) : (
+                    <Copy size={13} />
+                  )}
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-3 text-[11px] text-slate-500 leading-relaxed">
+          <span className="text-slate-400 font-mono">/new-project · /apply-kit · /phase</span>는 뒤에 인자(만들 것·스택·목표)를 받고,{" "}
+          <span className="text-slate-400 font-mono">/review · /deploy</span>는 인자 없이 바로 실행됩니다.
+        </p>
       </div>
 
       {/* 원칙 */}
