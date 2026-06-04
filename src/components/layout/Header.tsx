@@ -37,6 +37,7 @@ const navItems: NavEntry[] = [
       { to: "/llm-flow", label: "LLM Flow" },
       { to: "/claude-guide", label: "Claude" },
       { to: "/claude-advanced", label: "Claude Advanced" },
+      { to: "/dynamic-workflows", label: "Dynamic Workflows" },
     ],
   },
   {
