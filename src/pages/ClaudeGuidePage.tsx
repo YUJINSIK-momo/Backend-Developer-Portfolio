@@ -355,7 +355,7 @@ export function ClaudeGuidePage() {
             { icon: FileText, label: "CLAUDE.md", color: "text-green-400", border: "border-green-500/30", bg: "bg-green-500/10" },
             { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
             { icon: Settings, label: ".claude/settings.json", color: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/10" },
-            { icon: Terminal, label: "slash commands × 5", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
+            { icon: Terminal, label: "slash commands × 7", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
             { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
             { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
             { icon: Layers, label: ".agents/skills × 6", color: "text-fuchsia-400", border: "border-fuchsia-500/30", bg: "bg-fuchsia-500/10" },
@@ -383,6 +383,12 @@ export function ClaudeGuidePage() {
             <div><span className="text-pink-300 font-mono">/phase</span> — 목표를 phase 문서로 만들고 체크리스트대로 진행</div>
             <div><span className="text-pink-300 font-mono">/review</span> — 현재 변경사항 코드 리뷰</div>
             <div><span className="text-pink-300 font-mono">/deploy</span> — lint·build 검증 후 커밋·푸쉬</div>
+            <div><span className="text-pink-300 font-mono">/harness-legacy-scan</span> — 하네스를 읽기 전용으로 감사 (Dynamic Workflow)</div>
+            <div><span className="text-pink-300 font-mono">/harness-diet</span> — 리포트의 low-risk 항목만 적용해 하네스 정리</div>
+          </div>
+          <div className="mt-2 pt-2 border-t border-pink-500/20 text-[10px] text-purple-300/80 flex items-center gap-1.5">
+            <Workflow size={10} />
+            harness-* 두 명령은 ultracode Dynamic Workflow로 동작 — 진행상황은 /workflows로 확인
           </div>
         </div>
 

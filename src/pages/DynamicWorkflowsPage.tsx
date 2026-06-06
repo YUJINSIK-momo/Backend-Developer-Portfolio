@@ -487,22 +487,52 @@ export function DynamicWorkflowsPage() {
           </div>
           <p className="text-xs text-slate-400 leading-relaxed mb-3">
             원하는 작업을 한 번 워크플로우로 돌린 뒤 <code className="text-pink-300 font-mono">/workflows</code> → <code className="text-pink-300 font-mono">s</code>로 저장하면{" "}
-            <code className="text-slate-300 font-mono">.claude/workflows/</code>에 들어가 다음부터 슬래시 명령이 됩니다.
+            <code className="text-slate-300 font-mono">.claude/workflows/</code>에 들어가 다음부터 슬래시 명령이 됩니다. 이 두 명령은{" "}
+            <span className="text-slate-300">스타터킷 ZIP</span>에도 포함돼 있어, 받아서 바로 자기 하네스에 적용할 수 있습니다.
           </p>
+
+          {/* 설명문 — 감사 프레임워크 */}
+          <div className="rounded-lg border border-purple-500/20 bg-purple-500/5 px-3 py-2.5 mb-3">
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              <span className="text-purple-300 font-semibold">감사 프레임워크</span> — 하네스(CLAUDE.md · skills · commands · settings · hooks · MCP)를{" "}
+              <span className="text-slate-300">관점별 에이전트가 병렬로 읽기 전용 감사</span>하고, 그 결과를{" "}
+              <span className="text-slate-300">양방향 적대적 검증</span>(과다삭감·과소삭감 모두)으로 거른 뒤, low-risk 항목만 diet 단계에서 적용합니다.
+              담당 표면이 없는 에이전트는 “대상 없음”으로 빨리 빠져 비용을 아낍니다.
+            </p>
+          </div>
+
           <div className="space-y-2">
             <div className="rounded-lg border border-slate-700/50 bg-slate-900/60 px-3 py-2">
-              <div className="text-xs font-mono text-cyan-300 mb-1">/harness-legacy-scan</div>
-              <p className="text-[11px] text-slate-400 leading-relaxed">
-                관점별 에이전트 7종(Inventory · Global Context Tax · Skill Quality · Product Overlap · Safety · Refactor Planner · Adversarial Reviewer)으로
-                낡은 규칙·중복 지시·과도한 전역 컨텍스트·너무 넓은 Skill·불필요한 Hook/MCP를 감사 →{" "}
-                <span className="text-slate-300">KEEP / SHRINK / MOVE / SPLIT / CONVERT / DELETE</span>로 분류한 리포트만 작성(읽기 전용).
+              <div className="text-xs font-mono text-cyan-300 mb-1.5">
+                /harness-legacy-scan <span className="text-slate-500">— 읽기 전용 감사</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed mb-2">
+                관점별 에이전트 <span className="text-slate-300">11종</span>을 5그룹으로 분담 →{" "}
+                <span className="text-slate-300">KEEP / SHRINK / MOVE / SPLIT / CONVERT / MERGE / DEPRECATE / GUARD / DELETE</span>로 분류한 리포트만 작성(읽기 전용).
               </p>
+              <div className="grid sm:grid-cols-2 gap-1.5 text-[10px]">
+                {[
+                  { g: "사전", items: "Inventory" },
+                  { g: "컨텍스트 비용", items: "Global Context Tax · Skill Quality · Product Overlap" },
+                  { g: "권한·안전", items: "Permission Scope · Hook Firing · MCP Surface & Credential" },
+                  { g: "정합성", items: "Cross-Item Conflict · Dangling-Reference" },
+                  { g: "판단", items: "Refactor Planner · Adversarial Reviewer(양방향)" },
+                ].map((row) => (
+                  <div key={row.g} className="rounded border border-slate-700/40 bg-slate-900/40 px-2 py-1.5">
+                    <span className="text-cyan-300/90 font-semibold">{row.g}</span>
+                    <span className="text-slate-500"> — </span>
+                    <span className="text-slate-400">{row.items}</span>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="rounded-lg border border-slate-700/50 bg-slate-900/60 px-3 py-2">
-              <div className="text-xs font-mono text-cyan-300 mb-1">/harness-diet</div>
+              <div className="text-xs font-mono text-cyan-300 mb-1">
+                /harness-diet <span className="text-slate-500">— low-risk만 적용</span>
+              </div>
               <p className="text-[11px] text-slate-400 leading-relaxed">
-                그 리포트의 <span className="text-slate-300">low-risk 항목만</span> 적용: CLAUDE.md 중복 축소, 반복 절차를 Skill로 이동, 긴 SKILL.md를 reference.md/examples.md로 분리.
-                삭제 후보는 지우지 않고 <code className="text-slate-300 font-mono">.claude/archive/</code>로 이동.
+                적용 전 <span className="text-slate-300">Freshness Gate</span>로 리포트가 가리키는 위치가 그새 바뀌었는지(stale)·참조가 깨지는지 검증한 뒤, low-risk 항목만 적용.
+                CLAUDE.md 축소 · 절차를 Skill로 이동 · 긴 SKILL.md 분리 등. 삭제 후보는 지우지 않고 <code className="text-slate-300 font-mono">.claude/archive/</code>로 이동.
               </p>
             </div>
           </div>
