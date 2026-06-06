@@ -14,6 +14,7 @@ import { SecurityPage } from "./pages/SecurityPage"
 import { ClaudeGuidePage } from "./pages/ClaudeGuidePage"
 import { ClaudeAdvancedPage } from "./pages/ClaudeAdvancedPage"
 import { DynamicWorkflowsPage } from "./pages/DynamicWorkflowsPage"
+import { ProjectFlowPage } from "./pages/ProjectFlowPage"
 import { BackendBasicsPage } from "./pages/BackendBasicsPage"
 import { RoadmapPage } from "./pages/RoadmapPage"
 import { AboutPage } from "./pages/AboutPage"
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="/claude-guide" element={<ClaudeGuidePage />} />
             <Route path="/claude-advanced" element={<ClaudeAdvancedPage />} />
             <Route path="/dynamic-workflows" element={<DynamicWorkflowsPage />} />
+            <Route path="/project-flow" element={<ProjectFlowPage />} />
             <Route path="/backend-basics" element={<BackendBasicsPage />} />
             <Route path="/roadmap" element={<RoadmapPage />} />
             <Route path="/about" element={<AboutPage />} />

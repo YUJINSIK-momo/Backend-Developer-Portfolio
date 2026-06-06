@@ -38,6 +38,7 @@ const navItems: NavEntry[] = [
       { to: "/claude-guide", label: "Claude" },
       { to: "/claude-advanced", label: "Claude Advanced" },
       { to: "/dynamic-workflows", label: "Dynamic Workflows" },
+      { to: "/project-flow", label: "프로젝트 플로우" },
     ],
   },
   {
