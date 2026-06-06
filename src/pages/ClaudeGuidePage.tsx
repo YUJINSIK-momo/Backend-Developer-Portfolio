@@ -234,7 +234,9 @@ const folderTree = `루트/
 │   ├── settings.json          ← 팀 공유 (permissions, hooks)
 │   ├── settings.local.json    ← 개인 설정 (gitignore)
 │   ├── agents/                ← 커스텀 서브에이전트
-│   │   └── reviewer.md
+│   │   ├── reviewer.md        ← /review가 호출
+│   │   ├── tester.md          ← 테스트 실행·분석
+│   │   └── migrator.md        ← 마이그레이션
 │   └── commands/              ← 슬래시 명령
 │       ├── deploy.md          ← /deploy
 │       ├── review.md          ← /review
@@ -368,7 +370,7 @@ export function ClaudeGuidePage() {
             { icon: BookOpen, label: "docs/ × 4", color: "text-blue-400", border: "border-blue-500/30", bg: "bg-blue-500/10" },
             { icon: Settings, label: ".claude/settings.json", color: "text-amber-400", border: "border-amber-500/30", bg: "bg-amber-500/10" },
             { icon: Terminal, label: "slash commands × 7", color: "text-pink-400", border: "border-pink-500/30", bg: "bg-pink-500/10" },
-            { icon: Sparkles, label: "reviewer agent", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
+            { icon: Sparkles, label: ".claude/agents × 3", color: "text-purple-400", border: "border-purple-500/30", bg: "bg-purple-500/10" },
             { icon: Workflow, label: "phase-01 템플릿", color: "text-cyan-400", border: "border-cyan-500/30", bg: "bg-cyan-500/10" },
             { icon: Layers, label: ".agents/skills × 6", color: "text-fuchsia-400", border: "border-fuchsia-500/30", bg: "bg-fuchsia-500/10" },
             { icon: ShieldCheck, label: "scripts/verify (sh + ps1)", color: "text-emerald-400", border: "border-emerald-500/30", bg: "bg-emerald-500/10" },
