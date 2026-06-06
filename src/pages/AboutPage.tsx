@@ -3,7 +3,7 @@ import {
   User, Mail, Github, Linkedin, MapPin, Languages, Sparkles,
   MessageSquare, ShoppingBag, Bot, Workflow, FileCheck2, Radio,
   ArrowRight, Briefcase, GraduationCap, Wrench, Star,
-  ExternalLink, Plane, MessageCircle,
+  ExternalLink, Plane, MessageCircle, Footprints,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -75,6 +75,14 @@ const externalProjects = [
     icon: Plane,
     color: "cyan",
     tag: "Frontend",
+  },
+  {
+    href: "https://yujinsik-momo.github.io/Shoe-Store-Simulator",
+    label: "Shoe Store Simulator",
+    desc: "React Native 커스텀 신발 시뮬레이션 앱 — 색상·소재 등을 실시간으로 미리보기.",
+    icon: Footprints,
+    color: "pink",
+    tag: "React Native",
   },
 ] as const
 
@@ -402,6 +410,7 @@ const extColorMap = {
   amber: { border: "border-amber-500/20 hover:border-amber-500/40", icon: "text-amber-400" },
   purple: { border: "border-purple-500/20 hover:border-purple-500/40", icon: "text-purple-400" },
   cyan: { border: "border-cyan-500/20 hover:border-cyan-500/40", icon: "text-cyan-400" },
+  pink: { border: "border-pink-500/20 hover:border-pink-500/40", icon: "text-pink-400" },
 }
 
 function ExternalProjectCard({ href, label, desc, icon: Icon, color, tag }: {
