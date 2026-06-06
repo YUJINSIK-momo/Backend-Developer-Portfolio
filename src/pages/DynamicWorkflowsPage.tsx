@@ -26,6 +26,11 @@ import {
   Trash2,
   FileBarChart,
   ShieldAlert,
+  Search,
+  Save,
+  FlaskConical,
+  Boxes,
+  Network,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -229,6 +234,69 @@ const examples = [
   },
 ]
 
+const optIns: { trigger: string; scope: string; badge: "purple" | "cyan" | "amber"; desc: string }[] = [
+  {
+    trigger: "ultracode <작업>",
+    scope: "단일 작업",
+    badge: "purple",
+    desc: "프롬프트에 ultracode를 넣으면 그 작업 한 건만 워크플로우로 실행한다.",
+  },
+  {
+    trigger: "“워크플로우로 ~”",
+    scope: "단일 작업",
+    badge: "cyan",
+    desc: "“use a workflow”처럼 자연어로 요청해도 같은 옵트인으로 동작한다.",
+  },
+  {
+    trigger: "/effort ultracode",
+    scope: "세션 전체",
+    badge: "amber",
+    desc: "xhigh 추론 + 자동 오케스트레이션. 모든 작업을 워크플로우로 계획. 세션 끝나면 해제.",
+  },
+]
+
+const orchExamples: {
+  icon: React.ComponentType<{ size?: number; className?: string }>
+  title: string
+  mech: string
+  badge: "blue" | "purple" | "cyan" | "amber"
+  command: string
+  desc: string
+}[] = [
+  {
+    icon: ShieldAlert,
+    title: "코드베이스 auth 감사",
+    mech: "ultracode · fan-out 감사",
+    badge: "blue",
+    command: "ultracode 내 사이트 전체에서 auth 체크가 누락된 곳 전수 감사해줘",
+    desc: "여러 에이전트가 라우트·핸들러를 나눠 훑어 인증 누락 지점을 찾고, 서로의 발견을 교차검증한 뒤 하나의 리포트로. 공식 문서가 드는 대표 예시와 같은 패턴.",
+  },
+  {
+    icon: Boxes,
+    title: "글로벌 하네스 감사",
+    mech: "워크플로우 · 읽기 전용",
+    badge: "purple",
+    command: "워크플로우로 내 글로벌 하네스(~/.claude)를 감사해줘",
+    desc: "CLAUDE.md·settings·skills·hooks를 관점별 에이전트로 나눠 점검. 낡은 규칙·중복·과도한 권한을 분류해 보고. “수정하지 말 것”을 명시하면 읽기 전용 감사로 안전.",
+  },
+  {
+    icon: Search,
+    title: "deep-research (내장 워크플로우)",
+    mech: "/deep-research · 검색+교차검증+합성",
+    badge: "cyan",
+    command: "/deep-research Claude Code 사용자들이 CLAUDE.md·skill·hook을 어떻게 다르게 쓰는지, 공통 패턴과 흔한 실수 리서치해줘",
+    desc: "여러 각도로 웹 검색을 펼치고 출처를 서로 교차검증한 뒤, 살아남은 주장만 인용과 함께 리포트로. 진행상황은 /workflows로 관찰.",
+  },
+  {
+    icon: Save,
+    title: "커스텀 워크플로우 저장",
+    mech: "/workflows → s 키",
+    badge: "amber",
+    command: "ultracode 내 AI 코딩 하네스를 읽기 전용으로 감사하는 워크플로우 설계·실행해줘",
+    desc: "한 번 돌린 뒤 /workflows에서 s로 저장하면 .claude/workflows/에 들어가 다음부터 /이름 슬래시 명령으로 재사용. args로 입력도 전달.",
+  },
+]
+
 const gettingStarted = [
   {
     step: "1",
@@ -340,8 +408,148 @@ export function DynamicWorkflowsPage() {
           <Badge variant="purple">반복 · 예약 · 자율 진행</Badge>
         </div>
         <p className="text-slate-400 text-sm leading-relaxed">
-          한 번 시키고 끝나는 작업이 아니라, <span className="text-purple-300">시간을 두고 스스로 반복·재개·예약</span>되는 워크플로우입니다.
-          Claude Code의 <span className="text-white">/loop · 자율 페이스 · /schedule · 백그라운드 실행</span> 네 가지로 “사람이 계속 지켜보지 않아도 돌아가는 작업”을 만듭니다.
+          한 번 시키고 끝나는 작업을 넘어서는 <span className="text-purple-300">두 축의 워크플로우</span>를 다룹니다 —
+          <span className="text-white"> ① 한 작업을 여러 서브에이전트로 펼쳐 병렬 처리·교차검증하는 멀티 에이전트 오케스트레이션(Workflow 도구)</span>,
+          그리고 <span className="text-white">② /loop·자율 페이스·/schedule·백그라운드로 시간 축 위에서 스스로 반복·예약되는 자동화</span>.
+          Claude Code가 ‘Dynamic Workflows’라 부르는 정식 기능은 ①이고, ②는 그와 짝을 이루는 시간 축 자동화입니다.
+        </p>
+      </div>
+
+      {/* ① 멀티 에이전트 오케스트레이션 = 공식 Dynamic Workflows */}
+      <div>
+        <h2 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+          <Network size={16} className="text-purple-400" />
+          ① 멀티 에이전트 오케스트레이션 — Workflow 도구
+        </h2>
+        <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+          Claude Code가 공식적으로 <span className="text-purple-300">“Dynamic Workflows”</span>라 부르는 기능입니다. Claude가 작성한 스크립트가 서브에이전트를{" "}
+          <span className="text-slate-300">대규모로 fan-out</span> → 결과를 서로 <span className="text-slate-300">적대적으로 교차검증</span> → 하나의 리포트로 합칩니다.
+          계획을 사람 머릿속이 아니라 <span className="text-white">코드(스크립트)</span>가 들고 있다는 점이 일반 서브에이전트·스킬과 다릅니다.
+        </p>
+
+        {/* 옵트인 3가지 */}
+        <div className="rounded-xl border border-purple-500/20 bg-purple-500/5 p-4 mb-4">
+          <div className="text-xs font-semibold text-purple-300 mb-3 flex items-center gap-1.5">
+            <Sparkles size={12} />
+            어떻게 켜나 — 옵트인 3가지
+          </div>
+          <div className="grid sm:grid-cols-3 gap-2">
+            {optIns.map((o, idx) => (
+              <div key={idx} className="rounded-lg border border-slate-700/50 bg-slate-900/40 p-3">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <code className="text-xs text-purple-300 font-mono break-all">{o.trigger}</code>
+                  <Badge variant={o.badge} size="sm">{o.scope}</Badge>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">{o.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 실전 예시 카드 */}
+        <div className="grid md:grid-cols-2 gap-3">
+          {orchExamples.map((ex, idx) => {
+            const Icon = ex.icon
+            return (
+              <div key={idx} className="rounded-xl border border-slate-700/40 bg-slate-800/30 p-4">
+                <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                  <div className="flex items-center gap-2">
+                    <Icon size={15} className="text-slate-300" />
+                    <span className="text-sm font-bold text-white">{ex.title}</span>
+                  </div>
+                  <Badge variant={ex.badge}>{ex.mech}</Badge>
+                </div>
+                <div className="flex items-center justify-between gap-2 rounded-lg border border-slate-700/50 bg-slate-900/80 px-3 py-2 mb-2">
+                  <code className="text-xs text-slate-300 font-mono break-all">{ex.command}</code>
+                  <button
+                    onClick={() => copy(ex.command, `orch-${idx}`)}
+                    className="shrink-0 text-slate-500 hover:text-slate-200 transition-colors"
+                    aria-label="복사"
+                  >
+                    {copiedId === `orch-${idx}` ? (
+                      <Check size={13} className="text-green-400" />
+                    ) : (
+                      <Copy size={13} />
+                    )}
+                  </button>
+                </div>
+                <p className="text-xs text-slate-400 leading-relaxed">{ex.desc}</p>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* 커스텀 워크플로우 패턴 (scan → diet) */}
+        <div className="rounded-xl border border-slate-700/40 bg-slate-800/30 p-4 mt-3">
+          <div className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+            <Save size={15} className="text-amber-400" />
+            커스텀 워크플로우 — 하네스 정리 2단계 예시
+          </div>
+          <p className="text-xs text-slate-400 leading-relaxed mb-3">
+            원하는 작업을 한 번 워크플로우로 돌린 뒤 <code className="text-pink-300 font-mono">/workflows</code> → <code className="text-pink-300 font-mono">s</code>로 저장하면{" "}
+            <code className="text-slate-300 font-mono">.claude/workflows/</code>에 들어가 다음부터 슬래시 명령이 됩니다.
+          </p>
+          <div className="space-y-2">
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/60 px-3 py-2">
+              <div className="text-xs font-mono text-cyan-300 mb-1">/harness-legacy-scan</div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                관점별 에이전트 7종(Inventory · Global Context Tax · Skill Quality · Product Overlap · Safety · Refactor Planner · Adversarial Reviewer)으로
+                낡은 규칙·중복 지시·과도한 전역 컨텍스트·너무 넓은 Skill·불필요한 Hook/MCP를 감사 →{" "}
+                <span className="text-slate-300">KEEP / SHRINK / MOVE / SPLIT / CONVERT / DELETE</span>로 분류한 리포트만 작성(읽기 전용).
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/50 bg-slate-900/60 px-3 py-2">
+              <div className="text-xs font-mono text-cyan-300 mb-1">/harness-diet</div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                그 리포트의 <span className="text-slate-300">low-risk 항목만</span> 적용: CLAUDE.md 중복 축소, 반복 절차를 Skill로 이동, 긴 SKILL.md를 reference.md/examples.md로 분리.
+                삭제 후보는 지우지 않고 <code className="text-slate-300 font-mono">.claude/archive/</code>로 이동.
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 flex items-start gap-1.5 text-[11px]">
+            <AlertTriangle size={12} className="text-amber-400 shrink-0 mt-0.5" />
+            <span className="text-slate-400">
+              워크플로우 서브에이전트는 <span className="text-slate-300">acceptEdits</span>로 돌아 파일 편집이 자동 승인됩니다. 읽기 전용 감사는 “파일·hooks·MCP·권한을 수정하지 말 것”을 프롬프트에 분명히 적어야 안전합니다.
+            </span>
+          </div>
+        </div>
+
+        {/* /workflows 관찰 + research preview 주의 */}
+        <div className="grid md:grid-cols-2 gap-3 mt-3">
+          <div className="rounded-xl border border-pink-500/20 bg-pink-500/5 p-4">
+            <div className="text-xs font-semibold text-pink-300 mb-2 flex items-center gap-1.5">
+              <Terminal size={12} />
+              /workflows — 진행 관찰 &amp; 저장
+            </div>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              실행 중·완료된 워크플로우를 나열하고 phase별 <span className="text-slate-300">에이전트 수 · 토큰 · 경과시간</span>을 봅니다.
+              <span className="text-slate-300 font-mono"> p</span> 일시정지 ·
+              <span className="text-slate-300 font-mono"> x</span> 중단 ·
+              <span className="text-slate-300 font-mono"> s</span> 저장(→ /이름 명령).
+            </p>
+          </div>
+          <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
+            <div className="text-xs font-semibold text-amber-300 mb-2 flex items-center gap-1.5">
+              <FlaskConical size={12} />
+              알아둘 제약 (research preview)
+            </div>
+            <p className="text-[11px] text-slate-400 leading-relaxed">
+              Claude Code <span className="text-slate-300">v2.1.154+</span> 필요, <code className="text-slate-300 font-mono">/config</code>의 ‘Dynamic workflows’에서 켭니다(Pro).
+              한 런에 <span className="text-slate-300">동시 최대 16 · 총 1,000 에이전트</span>, 일반 대화보다 토큰을 크게 씁니다. 큰 작업 전엔 작은 범위로 먼저 돌려 비용을 가늠하세요.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* ② 시간 축 자동화 divider */}
+      <div className="rounded-xl border border-slate-700/40 bg-slate-900/30 p-4">
+        <h2 className="text-base font-semibold text-white mb-1 flex items-center gap-2">
+          <Repeat size={16} className="text-blue-400" />
+          ② 시간 축 자동화 — 반복 · 예약 · 백그라운드
+        </h2>
+        <p className="text-xs text-slate-500 leading-relaxed">
+          ①이 ‘한 작업을 여러 에이전트로 펼치는’ 축이라면, 아래는 ‘하나의 작업을 시간 축 위에서 스스로 반복·재개·예약’하는 자동화입니다.{" "}
+          <span className="text-slate-300">/loop · 자율 페이스 · /schedule · 백그라운드</span> 네 가지로, 위 오케스트레이션과 짝을 이룹니다.
         </p>
       </div>
 
