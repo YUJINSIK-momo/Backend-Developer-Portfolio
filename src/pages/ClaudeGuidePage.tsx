@@ -240,7 +240,9 @@ const folderTree = `루트/
 │       ├── review.md          ← /review
 │       ├── new-project.md     ← /new-project
 │       ├── apply-kit.md       ← /apply-kit
-│       └── phase.md           ← /phase
+│       ├── phase.md           ← /phase
+│       ├── harness-legacy-scan.md  ← /harness-legacy-scan
+│       └── harness-diet.md    ← /harness-diet
 ├── docs/
 │   ├── PRD.md                 ← 뭘 만드는지
 │   ├── ARCHITECTURE.md        ← 어떻게 만드는지
@@ -289,6 +291,16 @@ const slashCommands: { cmd: string; does: string; example: string }[] = [
     cmd: "/deploy",
     does: "lint·build 검증 후 커밋·푸시",
     example: "/deploy",
+  },
+  {
+    cmd: "/harness-legacy-scan",
+    does: "하네스를 읽기 전용으로 감사 (11종 에이전트 → 분류 리포트)",
+    example: "/harness-legacy-scan",
+  },
+  {
+    cmd: "/harness-diet",
+    does: "리포트의 low-risk 항목만 적용 (Freshness Gate 후 archive)",
+    example: "/harness-diet",
   },
 ]
 
@@ -619,7 +631,7 @@ export function ClaudeGuidePage() {
           슬래시 명령 — 사용 예시
         </h2>
         <p className="text-xs text-slate-500 mb-4">
-          키트의 <span className="font-mono text-slate-400">.claude/commands/</span>에 들어 있는 5개 명령. 예시는 복사해서 바로 쓸 수 있습니다.
+          키트의 <span className="font-mono text-slate-400">.claude/commands/</span>에 들어 있는 7개 명령. 예시는 복사해서 바로 쓸 수 있습니다.
         </p>
 
         <div className="rounded-xl border border-slate-700/40 overflow-hidden">
