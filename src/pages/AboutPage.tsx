@@ -108,7 +108,7 @@ export function AboutPage() {
           <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400 pt-2">
             <span className="flex items-center gap-1.5"><MapPin size={12} /> 한국 · 일본 원격 가능</span>
             <span className="text-slate-700">·</span>
-            <span className="flex items-center gap-1.5"><Languages size={12} /> 한국어 / 일본어(N1) / 영어</span>
+            <span className="flex items-center gap-1.5"><Languages size={12} /> 한국어 / 일본어(N1)</span>
           </div>
         </div>
 
