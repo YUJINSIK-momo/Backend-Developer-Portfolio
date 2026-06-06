@@ -13,6 +13,7 @@ import {
   ListChecks,
   Sparkles,
   GitBranch,
+  Gauge,
 } from "lucide-react"
 import { Badge } from "../components/ui/Badge"
 
@@ -211,6 +212,36 @@ const summaryFlow: { id: Mode; label: string; steps: string[]; color: string }[]
   },
 ]
 
+const effortRecipe: {
+  scope: string
+  badge: "blue" | "amber" | "purple"
+  effort: string
+  flow: string
+  note: string
+}[] = [
+  {
+    scope: "신규",
+    badge: "blue",
+    effort: "xhigh",
+    flow: "/effort xhigh → /new-project",
+    note: "스캐폴딩·인터랙티브라 fan-out 이득이 거의 없음. ultracode는 과함.",
+  },
+  {
+    scope: "기존 · 작은~중간",
+    badge: "amber",
+    effort: "xhigh",
+    flow: "/effort xhigh → /apply-kit",
+    note: "한 컨텍스트에 분석이 다 들어옴. xhigh 하나로 충분.",
+  },
+  {
+    scope: "기존 · 크고 누적",
+    badge: "purple",
+    effort: "ultracode → xhigh",
+    flow: "분석만 ultracode → 정리·적용은 xhigh",
+    note: "넓은 코드베이스 분석만 fan-out, 승인 필요한 정리는 인터랙티브로. 이후 /harness-legacy-scan → /harness-diet.",
+  },
+]
+
 export function ProjectFlowPage() {
   const [mode, setMode] = useState<Mode>("new")
   const [copiedId, setCopiedId] = useState<string | null>(null)
@@ -231,13 +262,62 @@ export function ProjectFlowPage() {
           <Workflow size={20} className="text-cyan-400" />
           <h1 className="text-2xl font-bold text-white">프로젝트 적용 플로우</h1>
           <Badge variant="cyan">신규 / 기존</Badge>
-          <Badge variant="slate">개인 참고용 치트시트</Badge>
+          <Badge variant="slate">치트시트</Badge>
         </div>
         <p className="text-slate-400 text-sm leading-relaxed">
           Claude Starter Kit을 <span className="text-blue-300">새 프로젝트</span>에 처음부터 세우는 흐름과,{" "}
           <span className="text-amber-300">이미 코드가 있는 프로젝트</span>에 입히는 흐름을 단계로 정리한 메모입니다.
           핵심 차이는 “새로 만드느냐 vs 머지하고 정리하느냐”입니다.
         </p>
+      </div>
+
+      {/* 실전 레시피 — effort 선택 (최상단 하이라이트) */}
+      <div className="rounded-xl border border-purple-500/25 bg-gradient-to-br from-purple-500/10 via-cyan-500/5 to-blue-500/10 p-5">
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
+          <Gauge size={16} className="text-purple-300" />
+          <h2 className="text-base font-bold text-white">실전 레시피 — 어떤 effort로?</h2>
+          <Badge variant="purple">xhigh 기본</Badge>
+        </div>
+        <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+          평소엔 <span className="text-cyan-300 font-mono">xhigh</span>로 충분합니다.{" "}
+          <span className="text-purple-300 font-mono">ultracode</span>는 “넓게 훑어야 하는 큰 기존 코드베이스의 <span className="text-white">분석</span>”에서만
+          잠깐 켜고, 승인이 필요한 정리·적용은 다시 xhigh로 내리세요.
+        </p>
+
+        <div className="grid md:grid-cols-3 gap-3 mb-4">
+          {effortRecipe.map((r, idx) => (
+            <div key={idx} className="rounded-lg border border-slate-700/50 bg-slate-900/50 p-3">
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-sm font-bold text-white">{r.scope}</span>
+                <Badge variant={r.badge}>{r.effort}</Badge>
+              </div>
+              <div className="flex items-center justify-between gap-2 rounded-md border border-slate-700/50 bg-slate-900/80 px-2.5 py-1.5 mb-2">
+                <code className="text-[11px] text-slate-300 font-mono break-all">{r.flow}</code>
+                <button
+                  onClick={() => copy(r.flow, `recipe-${idx}`)}
+                  className="shrink-0 text-slate-500 hover:text-slate-200 transition-colors"
+                  aria-label="복사"
+                >
+                  {copiedId === `recipe-${idx}` ? (
+                    <Check size={12} className="text-green-400" />
+                  ) : (
+                    <Copy size={12} />
+                  )}
+                </button>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">{r.note}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-lg border border-slate-700/40 bg-slate-900/40 p-3">
+          <div className="text-[11px] font-semibold text-slate-300 mb-1.5">왜 xhigh가 기본인가</div>
+          <ul className="space-y-1 text-[11px] text-slate-400 leading-relaxed">
+            <li>• <span className="text-white">ultracode = xhigh 추론 + 자동 워크플로우 오케스트레이션</span> — 추론 깊이는 같고, 차이는 멀티 에이전트 fan-out뿐.</li>
+            <li>• ultracode는 토큰을 훨씬 쓰고 느립니다. 한 요청이 워크플로우 여러 개로 갈라지기도.</li>
+            <li>• <span className="text-amber-300">워크플로우는 중간 승인을 못 받습니다</span> — 키트의 “계획 보여주고 승인” 게이트와 충돌하니, 파괴적 정리·삭제는 xhigh로 인터랙티브하게.</li>
+          </ul>
+        </div>
       </div>
 
       {/* 모드 탭 */}
