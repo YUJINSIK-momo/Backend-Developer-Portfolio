@@ -27,6 +27,7 @@ const navItems: NavEntry[] = [
     label: "Infra",
     items: [
       { to: "/aws-infra", label: "AWS 인프라" },
+      { to: "/docker", label: "Docker & K8s" },
       { to: "/security", label: "보안/장애" },
       { to: "/test-env", label: "테스트 환경" },
     ],
