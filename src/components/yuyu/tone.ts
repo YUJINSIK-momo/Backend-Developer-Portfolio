@@ -45,3 +45,15 @@ export const toneTopBorder: Record<Tone, string> = {
   warning: "border-t-yuyu-warning",
   danger: "border-t-yuyu-danger",
 }
+
+// 상태 점 — 같은 이유로 문자열 그대로 둔다
+export const toneDot: Record<Tone, string> = {
+  neutral: "bg-yuyu-fg-subtle",
+  brand: "bg-yuyu-brand",
+  ai: "bg-yuyu-ai",
+  infra: "bg-yuyu-infra",
+  web: "bg-yuyu-web",
+  success: "bg-yuyu-success",
+  warning: "bg-yuyu-warning",
+  danger: "bg-yuyu-danger",
+}

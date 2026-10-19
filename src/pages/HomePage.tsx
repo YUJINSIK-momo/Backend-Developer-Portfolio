@@ -21,8 +21,8 @@ const lifecycle = [
 
 const coverage = [
   { name: "디자인 시스템 하네스", range: "요청 → 화면 생성 → 승인", tone: "ai", to: "/work/design-harness" },
-  { name: "릴리스 하네스", range: "리뷰 → 결정 → 배포", tone: "warning", to: "/work/blue-maps#release" },
-  { name: "AWS 인프라 · 운영 대시보드", range: "배포 → 운영", tone: "infra", to: "/work/blue-maps" },
+  { name: "릴리스 하네스", range: "리뷰 → 결정 → 배포", tone: "warning", to: "/work/trade-area#release" },
+  { name: "AWS 인프라 · 운영 대시보드", range: "배포 → 운영", tone: "infra", to: "/work/trade-area" },
 ] as const
 
 export function HomePage() {

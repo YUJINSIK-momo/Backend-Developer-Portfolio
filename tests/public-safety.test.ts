@@ -15,6 +15,8 @@ const forbidden: readonly { name: string; pattern: RegExp }[] = [
   { name: "Tailscale 사설망 주소", pattern: /\.ts\.net\b/ },
   { name: "액세스 키 모양", pattern: /\b(?:AKIA|ASIA)[0-9A-Z]{16}\b/ },
   { name: "토큰 모양", pattern: /\b(?:ghp|gho|xox[abp])[-_][0-9A-Za-z-]{10,}/ },
+  // 회사 서비스는 「상권 프로젝트」로만 부른다
+  { name: "회사 서비스 이름 · 도메인", pattern: /blue[\s_-]?maps|블루맵스/i },
 ]
 
 const root = fileURLToPath(new URL("../src", import.meta.url))

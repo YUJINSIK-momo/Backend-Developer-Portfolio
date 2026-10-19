@@ -72,6 +72,8 @@ export type CaseSection =
   | (CaseSectionBase & { kind: "table"; head: readonly [string, string]; rows: readonly (readonly [string, string])[] })
   | (CaseSectionBase & { kind: "bullets"; items: readonly string[] })
   | (CaseSectionBase & { kind: "pipeline"; nodes: readonly { label: string; sub?: string; tone?: Tone; human?: boolean }[]; caption?: string })
+  /** 데이터 대신 직접 만든 화면을 끼운다 — 지금은 운영 대시보드 미리 보기 하나 */
+  | (CaseSectionBase & { kind: "demo"; demo: "ops-dashboard" })
 
 export interface CaseStudy {
   slug: string

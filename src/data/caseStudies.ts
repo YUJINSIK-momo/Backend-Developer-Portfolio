@@ -93,13 +93,13 @@ export const caseStudies: Record<string, CaseStudy> = {
         ],
       },
     ],
-    next: { label: "블루맵스 상권 분석 서비스 — AWS · 릴리스 하네스", to: "/work/blue-maps" },
+    next: { label: "상권 프로젝트 — AWS · 릴리스 하네스", to: "/work/trade-area" },
   },
 
-  "blue-maps": {
-    slug: "blue-maps",
+  "trade-area": {
+    slug: "trade-area",
     eyebrow: "Case study · 인프라 · 운영",
-    title: "블루맵스 상권 분석 서비스",
+    title: "상권 프로젝트",
     lead:
       "누구나 쓰는 공개 상권 분석 서비스입니다. 빈 저장소에서 시작해 15일 만에 운영 릴리스 20개를 냈고, " +
       "AWS 인프라는 Terraform 으로, 리뷰와 배포는 GPT 리뷰 · Slack 결정 · 태그 배포로 이어지는 릴리스 하네스로 운영합니다.",
@@ -259,7 +259,7 @@ export const caseStudies: Record<string, CaseStudy> = {
   "ops-dashboard": {
     slug: "ops-dashboard",
     eyebrow: "Case study · 인프라 · 운영",
-    title: "블루맵스 운영 대시보드",
+    title: "상권 프로젝트 운영 대시보드",
     lead:
       "AWS 콘솔 · GitHub · Slack · 러너 로그에 흩어진 운영 정보를 한 화면에 모았습니다. " +
       "외부 의존성 없이 Node 내장 모듈만으로 만들었고, 읽기 전용 권한으로만 AWS 를 보며, 사설망 밖으로는 열리지 않습니다.",
@@ -282,10 +282,19 @@ export const caseStudies: Record<string, CaseStudy> = {
         cards: [
           { title: "러너", body: "릴리스 하네스 상태와 릴리스 단계 카드 — 지금 어떤 PR 이 어느 단계에서 누구의 결정을 기다리는지.", tone: "ai" },
           { title: "인프라", body: "헬스 체크, Actions · CI 러너, ECS · 대상 그룹 · 알람 · ETL, 그리고 디자인 → 기획 → 개발 → GPT 리뷰 → Claude 검증 → 결정 → 태그 배포 흐름 카드.", tone: "infra" },
-          { title: "흐름", body: "아키텍처 구조도 위에 실시간 상태를 입혀 어디가 아픈지 그림으로 본다.", tone: "brand" },
-          { title: "앱", body: "리소스 트리, 24시간 지표, 비용, 배포 이력 — 10단계 진행, 태스크 교체, 대상 겹침, 롤백.", tone: "web" },
+          { title: "흐름", body: "아키텍처 구조도의 노드 · 연결선에 실행 / 멈춤을 색과 움직임으로 입힌다. 배포 경로는 지금 도는 단계의 선만 흐르고, 실패한 단계는 다음 배포까지 끊긴 채 남는다.", tone: "brand" },
+          { title: "앱", body: "ArgoCD 앱 화면처럼 서비스 → 리비전 → 파드 트리와 건강 · 동기화 상태. 파드를 누르면 이벤트와 로그, 그리고 24시간 지표 · 비용 · 배포 이력(10단계, 파드 교체, 대상 겹침, 롤백).", tone: "web" },
           { title: "로그", body: "CloudWatch 와 러너 로그를 한곳에서, 여러 줄 오류는 하나로 묶어 보여 준다.", tone: "neutral" },
         ],
+      },
+      {
+        id: "demo",
+        kind: "demo",
+        demo: "ops-dashboard",
+        title: "화면 미리 보기 — 배포 한 번 재생하기",
+        description:
+          "앱 탭을 예시 값으로 다시 그렸습니다. 태그를 발행한 뒤 파드가 어떻게 뜨고 내려가는지, 새 파드가 실패하면 어떻게 되돌아가는지 장면마다 넘겨 볼 수 있습니다. " +
+          "ECS 태스크를 ArgoCD 처럼 파드라고 부릅니다. 실제 화면은 사설망 안에서만 열립니다.",
       },
       {
         id: "security",
