@@ -3,7 +3,7 @@ import type { Tone } from "../components/yuyu"
 // 사람에 관한 사실의 정본 — 홈·About·머리글·바닥글이 모두 여기서 읽는다
 export const profile = {
   name: "유진식",
-  nameEn: "Jinsik Yoo",
+  nameEn: "Jinsik Yu",
   handle: "yuyu",
   role: "AI · AX 백엔드 / 인프라 개발자",
   headline: "AI 가 일하는 길을 깔고, 사람이 결정하는 자리를 지키는 개발자",
