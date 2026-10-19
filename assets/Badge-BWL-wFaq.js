@@ -1,0 +1,1 @@
+import{j as a,c as p,h as r}from"./index-C7KpxHWU.js";function o({children:e,tone:t="neutral",size:s="sm",className:n}){return a.jsx("span",{className:p("inline-flex items-center gap-1 rounded-full border font-medium whitespace-nowrap",s==="sm"?"px-2 py-0.5 text-[11px]":"px-2.5 py-1 text-xs",r[t],n),children:e})}export{o as B};

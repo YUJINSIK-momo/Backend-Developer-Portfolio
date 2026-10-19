@@ -1,1 +1,0 @@
-import{j as t,c as l}from"./index-Yj6Cpdem.js";const m={narrow:"max-w-3xl",default:"max-w-5xl",wide:"max-w-7xl"};function r({children:a,width:x="default",className:s}){return t.jsx("div",{className:l("mx-auto w-full px-4 sm:px-6",m[x],s),children:a})}export{r as C};
