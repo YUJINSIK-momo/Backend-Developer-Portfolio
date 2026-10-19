@@ -10,6 +10,38 @@
 
 ---
 
+## 현재 구조 (2026-10 개편) — 이 절이 아래 옛 설명보다 우선한다
+
+포트폴리오(일한 것)와 학습 노트(공부한 것)를 나눴다. 헤더 메뉴는 다섯 개로 고정한다: 홈 · 프로젝트 · AI · AX · 학습 노트 · About.
+
+| 경로 | 파일 | 내용 |
+|---|---|---|
+| `/` | `pages/HomePage.tsx` | 소개, 대표 사례 3개, 일하는 원칙, AI 프로젝트 |
+| `/work` | `pages/WorkPage.tsx` | 프로젝트 전체(분야 필터) |
+| `/work/:slug` | `pages/CaseStudyPage.tsx` | 사례 상세 — 본문은 `data/caseStudies.ts` |
+| `/ax` | `pages/AxPage.tsx` | 하네스 엔지니어링 원칙 · 부품 · 두 하네스 비교 |
+| `/notes` | `pages/NotesPage.tsx` | 학습 노트 목록 — 목록은 `data/notes.ts` |
+| `/about` | `pages/AboutPage.tsx` | 경력 · 기술 · 연락 |
+| `/yuyu` | `pages/YuyuPage.tsx` | yuyu UI 토큰 · 컴포넌트 견본 |
+| 그 밖 | 예전 노트 페이지 | 경로는 그대로 두고 `NoteLayout` 이 위치 표시와 이전/다음을 붙인다 |
+
+### 데이터는 한 곳에서
+- 사람 정보 `data/profile.ts`, 프로젝트 `data/projects.ts`, 사례 본문 `data/caseStudies.ts`, 노트 목록 `data/notes.ts`, AI · AX 본문 `data/ax.ts`.
+- 페이지 안에 프로젝트 · 숫자를 직접 적지 않는다. 숫자는 근거(저장소 CI · 문서 · 실행 기록)가 있는 것만 쓴다.
+- 새 노트를 만들면 `App.tsx` 의 `NoteLayout` 아래에 라우트를, `data/notes.ts` 에 항목을 함께 넣는다(테스트가 둘이 맞는지 본다).
+
+### yuyu UI
+- 토큰 정본은 `src/styles/yuyu-tokens.css` (`--yuyu-*`, R G B 채널). Tailwind 색은 `yuyu-*` 로만 쓴다.
+- 새 화면은 `src/components/yuyu` 의 부품만 쓴다. hex 색, 페이지마다 따로 만든 색 맵을 새로 만들지 않는다.
+- 분야 색(ai · infra · web)은 프로젝트 분류에만, 상태 색(success · warning · danger)은 상태에만 쓴다. warning 은 「사람이 결정하는 자리」에도 쓴다.
+
+### 공개 사이트 안전 규칙
+- 회사(비공개 저장소) 프로젝트는 설계 · 운영 방식만 자기 말로 쓴다. 코드 · 문서를 그대로 옮기지 않는다.
+- AWS 계정 ID · ARN · VPC/서브넷/보안그룹 ID · Slack ID · 사설망 주소 · 회사 메일 · 회사 내부 시스템 이름 · 다른 사람의 실명은 쓰지 않는다. 사람은 「개발자 · 기획자」로 쓴다.
+- `tests/public-safety.test.ts` 가 위 식별자를 막고, 배포 워크플로는 lint → test → build 를 통과해야 배포한다.
+
+---
+
 ## 프로젝트 목표
 
 ### 핵심 목표

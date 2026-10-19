@@ -855,7 +855,8 @@ export function DrinkArchPage() {
           })}
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-4">
+        {/* 그리드 칸이 긴 코드 줄만큼 늘어나지 않게 min-w-0 */}
+        <div className="grid lg:grid-cols-2 gap-4 [&>*]:min-w-0">
           <div>
             <div className="text-xs font-semibold text-slate-400 mb-2 flex items-center gap-1.5">
               <GitBranch size={13} className="text-purple-400" /> Outbox — 발행 유실 차단

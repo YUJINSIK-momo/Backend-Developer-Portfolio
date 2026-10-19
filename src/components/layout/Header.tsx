@@ -1,242 +1,114 @@
 import { NavLink, useLocation } from "react-router-dom"
-import { Server, Menu, X, ChevronDown } from "lucide-react"
-import { useState, useRef, useEffect } from "react"
+import { Github, Menu, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { cx } from "../yuyu"
+import { findNote } from "../../data/notes"
+import { profile } from "../../data/profile"
 
-type NavLeaf = { to: string; label: string; exact?: boolean }
-type NavGroup = { label: string; items: NavLeaf[] }
-type NavEntry = NavLeaf | NavGroup
+interface NavItem {
+  to: string
+  label: string
+  /** 이 경로들에 있을 때도 켜진 것으로 본다 */
+  match?: (pathname: string) => boolean
+}
 
-const isGroup = (e: NavEntry): e is NavGroup => "items" in e
-
-const navItems: NavEntry[] = [
-  { to: "/", label: "Dashboard", exact: true },
-  { to: "/big-data", label: "빅데이터" },
-  { to: "/drink-architecture", label: "Drink 아키텍처" },
+const navItems: readonly NavItem[] = [
+  { to: "/", label: "홈", match: (p) => p === "/" },
+  { to: "/work", label: "프로젝트", match: (p) => p.startsWith("/work") || p === "/drink-architecture" },
+  { to: "/ax", label: "AI · AX" },
+  { to: "/notes", label: "학습 노트", match: (p) => p === "/notes" || Boolean(findNote(p)) },
   { to: "/about", label: "About" },
-  {
-    label: "Backend",
-    items: [
-      { to: "/backend-basics", label: "Basics" },
-      { to: "/api-flow", label: "API Flow" },
-      { to: "/socket", label: "Socket" },
-      { to: "/architecture", label: "Architecture" },
-      { to: "/tech-stack", label: "Tech Stack" },
-    ],
-  },
-  {
-    label: "Infra",
-    items: [
-      { to: "/aws-infra", label: "AWS 인프라" },
-      { to: "/docker", label: "Docker & K8s" },
-      { to: "/security", label: "보안/장애" },
-      { to: "/test-env", label: "테스트 환경" },
-    ],
-  },
-  {
-    label: "AI",
-    items: [
-      { to: "/llm-flow", label: "LLM Flow" },
-      { to: "/claude-guide", label: "Claude" },
-      { to: "/claude-advanced", label: "Claude Advanced" },
-      { to: "/dynamic-workflows", label: "Dynamic Workflows" },
-      { to: "/project-flow", label: "프로젝트 플로우" },
-    ],
-  },
-  {
-    label: "Reference",
-    items: [
-      { to: "/glossary", label: "용어사전" },
-      { to: "/roadmap", label: "Roadmap" },
-    ],
-  },
 ]
+
+function isActive(item: NavItem, pathname: string) {
+  return item.match ? item.match(pathname) : pathname.startsWith(item.to)
+}
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [openGroup, setOpenGroup] = useState<string | null>(null)
-  const groupRef = useRef<HTMLDivElement>(null)
-  const location = useLocation()
+  const { pathname } = useLocation()
 
-  // 라우트 바뀌면 드롭다운 자동 닫기
+  // 화면이 바뀌면 모바일 메뉴를 닫는다
   useEffect(() => {
-    setOpenGroup(null)
     setMobileOpen(false)
-  }, [location.pathname])
-
-  // 외부 클릭 시 드롭다운 닫기
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (groupRef.current && !groupRef.current.contains(e.target as Node)) {
-        setOpenGroup(null)
-      }
-    }
-    if (openGroup) document.addEventListener("mousedown", handler)
-    return () => document.removeEventListener("mousedown", handler)
-  }, [openGroup])
-
-  const isGroupActive = (g: NavGroup) =>
-    g.items.some((item) => location.pathname === item.to)
+  }, [pathname])
 
   return (
-    <header className="sticky top-0 z-50 bg-navy-900/90 backdrop-blur-md border-b border-slate-700/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-14">
-          {/* Logo */}
-          <NavLink to="/" className="flex items-center gap-2 group">
-            <div className="w-7 h-7 rounded-lg bg-blue-600/20 border border-blue-500/30 flex items-center justify-center group-hover:border-blue-400/50 transition-colors">
-              <Server size={14} className="text-blue-400" />
-            </div>
-            <span className="text-sm font-semibold text-white">
-              Backend<span className="text-blue-400">Portfolio</span>
-            </span>
-          </NavLink>
+    <header className="sticky top-0 z-50 border-b border-yuyu-line/50 bg-yuyu-bg/85 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6">
+        <NavLink to="/" className="flex items-center gap-2.5" aria-label="홈으로">
+          <span className="flex h-7 w-7 items-center justify-center rounded-yuyu-md bg-yuyu-brand-strong font-mono text-xs font-bold text-white">
+            yu
+          </span>
+          <span className="text-sm font-semibold text-yuyu-fg">
+            {profile.name}
+            <span className="ml-1.5 font-normal text-yuyu-fg-subtle">portfolio</span>
+          </span>
+        </NavLink>
 
-          {/* Desktop Nav */}
-          <nav ref={groupRef} className="hidden md:flex items-center gap-1">
-            {navItems.map((entry) => {
-              if (!isGroup(entry)) {
-                return (
-                  <NavLink
-                    key={entry.to}
-                    to={entry.to}
-                    end={entry.exact}
-                    className={({ isActive }) =>
-                      `px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                        isActive
-                          ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                          : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/40"
-                      }`
-                    }
-                  >
-                    {entry.label}
-                  </NavLink>
-                )
-              }
-
-              const groupActive = isGroupActive(entry)
-              const isOpen = openGroup === entry.label
-
-              return (
-                <div key={entry.label} className="relative">
-                  <button
-                    onClick={() => setOpenGroup(isOpen ? null : entry.label)}
-                    className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                      groupActive
-                        ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
-                        : isOpen
-                        ? "bg-slate-700/40 text-slate-200"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/40"
-                    }`}
-                  >
-                    <span>{entry.label}</span>
-                    <ChevronDown
-                      size={12}
-                      className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-
-                  {isOpen && (
-                    <div className="absolute left-0 top-full mt-1.5 min-w-[180px] bg-navy-800 border border-slate-700/50 rounded-lg shadow-xl py-1.5 overflow-hidden">
-                      {entry.items.map((item) => (
-                        <NavLink
-                          key={item.to}
-                          to={item.to}
-                          className={({ isActive }) =>
-                            `block px-3 py-2 text-xs font-medium transition-colors ${
-                              isActive
-                                ? "bg-blue-600/15 text-blue-400"
-                                : "text-slate-300 hover:bg-slate-700/40 hover:text-white"
-                            }`
-                          }
-                        >
-                          {item.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </nav>
-
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden text-slate-400 hover:text-white p-1"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Nav */}
-      {mobileOpen && (
-        <nav className="md:hidden border-t border-slate-700/50 bg-navy-900 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
-          <div className="px-4 py-3 flex flex-col gap-1">
-            {navItems.map((entry) =>
-              isGroup(entry) ? (
-                <MobileGroup key={entry.label} group={entry} />
-              ) : (
-                <NavLink
-                  key={entry.to}
-                  to={entry.to}
-                  end={entry.exact}
-                  className={({ isActive }) =>
-                    `px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      isActive
-                        ? "bg-blue-600/20 text-blue-400"
-                        : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/40"
-                    }`
-                  }
-                >
-                  {entry.label}
-                </NavLink>
-              )
-            )}
-          </div>
-        </nav>
-      )}
-    </header>
-  )
-}
-
-function MobileGroup({ group }: { group: NavGroup }) {
-  const location = useLocation()
-  const childActive = group.items.some((item) => location.pathname === item.to)
-  const [open, setOpen] = useState(childActive)
-
-  return (
-    <div>
-      <button
-        onClick={() => setOpen(!open)}
-        className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-          childActive
-            ? "bg-blue-600/15 text-blue-400"
-            : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/40"
-        }`}
-      >
-        <span>{group.label}</span>
-        <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="ml-3 mt-1 border-l border-slate-700/50 pl-3 flex flex-col gap-0.5">
-          {group.items.map((item) => (
+        <nav className="hidden items-center gap-1 md:flex" aria-label="주 메뉴">
+          {navItems.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
-              className={({ isActive }) =>
-                `px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
-                  isActive
-                    ? "bg-blue-600/15 text-blue-400"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-700/40"
-                }`
-              }
+              className={cx(
+                "rounded-yuyu-md px-3 py-1.5 text-sm font-medium transition-colors",
+                isActive(item, pathname)
+                  ? "bg-yuyu-raised text-yuyu-fg"
+                  : "text-yuyu-fg-muted hover:text-yuyu-fg",
+              )}
             >
               {item.label}
             </NavLink>
           ))}
-        </div>
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-2 flex h-8 w-8 items-center justify-center rounded-yuyu-md text-yuyu-fg-muted transition-colors hover:bg-yuyu-raised hover:text-yuyu-fg"
+            aria-label="GitHub"
+          >
+            <Github size={16} />
+          </a>
+        </nav>
+
+        <button
+          type="button"
+          className="p-1 text-yuyu-fg-muted hover:text-yuyu-fg md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {mobileOpen && (
+        <nav className="border-t border-yuyu-line/50 bg-yuyu-bg md:hidden" aria-label="모바일 메뉴">
+          <div className="flex flex-col gap-1 px-4 py-3">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={cx(
+                  "rounded-yuyu-md px-3 py-2 text-sm font-medium",
+                  isActive(item, pathname) ? "bg-yuyu-raised text-yuyu-fg" : "text-yuyu-fg-muted",
+                )}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-yuyu-md px-3 py-2 text-sm text-yuyu-fg-muted"
+            >
+              <Github size={15} /> GitHub
+            </a>
+          </div>
+        </nav>
       )}
-    </div>
+    </header>
   )
 }

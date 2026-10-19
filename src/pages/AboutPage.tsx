@@ -1,444 +1,66 @@
-import { Link } from "react-router-dom"
+import { Github, Languages, Mail, MapPin, MessageCircle } from "lucide-react"
 import {
-  User, Mail, Github, Linkedin, MapPin, Languages, Sparkles,
-  MessageSquare, ShoppingBag, Bot, Workflow, FileCheck2, Radio,
-  ArrowRight, Briefcase, GraduationCap, Wrench, Star,
-  ExternalLink, Plane, MessageCircle, Footprints,
-} from "lucide-react"
-import { Badge } from "../components/ui/Badge"
-
-const strengths = [
-  {
-    icon: Languages,
-    title: "일본어 비즈니스 (JLPT N1)",
-    desc: "일본 고객사·문서·회의 직접 대응. 일본어 CS 자동화 시스템 설계에 강점.",
-    color: "red",
-  },
-  {
-    icon: Bot,
-    title: "LINE · Slack · 다양한 AI 툴 자동화",
-    desc: "메신저 채널과 ChatGPT · Claude · Gemini 등 LLM을 상황에 맞게 조합한 업무 자동화 경험.",
-    color: "green",
-  },
-  {
-    icon: ShoppingBag,
-    title: "WordPress · WooCommerce · Shopify",
-    desc: "커머스 플랫폼 운영·커스터마이즈 경험. 실무에서 바로 쓰이는 통합 가능.",
-    color: "purple",
-  },
-  {
-    icon: FileCheck2,
-    title: "QA / 5G 시스템 테스트",
-    desc: "테스트 케이스 설계와 검증 사이클 경험. 품질을 코드 작성 단계부터 고민.",
-    color: "amber",
-  },
-] as const
-
-const techGroups = [
-  { label: "Backend", items: ["Node.js", "Express", "NestJS", "TypeScript"], color: "green" },
-  { label: "Database", items: ["PostgreSQL", "Prisma", "Redis"], color: "cyan" },
-  { label: "Realtime / API", items: ["WebSocket", "Socket.IO", "REST", "Webhook"], color: "blue" },
-  { label: "AI / Automation", items: ["ChatGPT", "Claude", "Gemini", "LangChain", "LINE Messaging", "Slack API"], color: "amber" },
-  { label: "Frontend", items: ["React", "Vite", "Tailwind CSS"], color: "purple" },
-  { label: "Infra / Ops", items: ["AWS EC2", "Cloudflare", "Docker", "GitHub Actions"], color: "pink" },
-] as const
-
-const projects = [
-  { to: "/backend-basics", label: "Backend Basics", desc: "Webhook · Express · DB 설계 · SQL", icon: Workflow },
-  { to: "/socket", label: "Socket Communication", desc: "실시간 양방향 통신 시각화", icon: Radio },
-  { to: "/llm-flow", label: "LLM Flow", desc: "토큰 → 추론 → 스트리밍 파이프라인", icon: Sparkles },
-  { to: "/aws-infra", label: "AWS Infra", desc: "EC2 + ALB + RDS + Redis 구성도", icon: Wrench },
-  { to: "/roadmap", label: "Dev Roadmap", desc: "MVP 분리 · 기술 선택 기준 · 실습 로드맵", icon: Star },
-] as const
-
-const externalProjects = [
-  {
-    href: "https://yujinsik-momo.github.io/AI-Agent/",
-    label: "AI Agent",
-    desc: "LLM 기반 AI 에이전트 데모 — 대화형으로 작업을 처리하는 인터페이스.",
-    icon: Bot,
-    color: "amber",
-    tag: "AI",
-  },
-  {
-    href: "https://yujinsik-momo.github.io/HR-System-Portfolio/",
-    label: "HR System",
-    desc: "인사·조직 관리 시스템 포트폴리오 — 직원·근태·평가 관리 UI.",
-    icon: Briefcase,
-    color: "purple",
-    tag: "Web App",
-  },
-  {
-    href: "https://yujinsik-momo.github.io/Travel-Website/#/",
-    label: "Travel Website",
-    desc: "여행 정보·예약 웹사이트 — 반응형 프론트엔드.",
-    icon: Plane,
-    color: "cyan",
-    tag: "Frontend",
-  },
-  {
-    href: "https://yujinsik-momo.github.io/Shoe-Store-Simulator",
-    label: "Shoe Store Simulator",
-    desc: "React Native 커스텀 신발 시뮬레이션 앱 — 색상·소재 등을 실시간으로 미리보기.",
-    icon: Footprints,
-    color: "pink",
-    tag: "React Native",
-  },
-] as const
+  Badge, Button, Card, Container, PageHeader, SectionHeader, TagList, toneSoft, cx,
+} from "../components/yuyu"
+import { career, profile, skillGroups } from "../data/profile"
 
 export function AboutPage() {
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10 space-y-12">
-      {/* Hero */}
-      <section className="text-center space-y-5">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30">
-          <User size={36} className="text-blue-400" />
+    <Container className="space-y-14 py-12">
+      <PageHeader
+        eyebrow="About"
+        title={<>{profile.name} <span className="text-xl font-normal text-yuyu-fg-subtle">{profile.nameEn}</span></>}
+        lead={profile.intro}
+      >
+        <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-yuyu-fg-muted">
+          <span className="flex items-center gap-1.5"><MapPin size={13} /> {profile.location}</span>
+          <span className="flex items-center gap-1.5"><Languages size={13} /> {profile.languages.join(" · ")}</span>
         </div>
-        <div className="space-y-2">
-          <Badge variant="blue">About Me</Badge>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white">
-            유진식 <span className="text-slate-400 text-2xl font-normal">(Jinsik Yoo)</span>
-          </h1>
-          <p className="text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            <span className="text-blue-400 font-semibold">일본어 커머스·CS 환경</span>을 이해하고,
-            <span className="text-cyan-400 font-semibold"> LINE·Slack·WooCommerce + 다양한 AI 툴</span>(ChatGPT·Claude·Gemini)을 활용해
-            <span className="text-purple-400 font-semibold"> 업무 자동화 시스템</span>을
-            설계·개발하는 실무형 백엔드 개발자.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-slate-400 pt-2">
-            <span className="flex items-center gap-1.5"><MapPin size={12} /> 한국 · 일본 원격 가능</span>
-            <span className="text-slate-700">·</span>
-            <span className="flex items-center gap-1.5"><Languages size={12} /> 한국어 / 일본어(N1)</span>
-          </div>
+        <div className="flex flex-wrap gap-2 pt-1">
+          <Button href={`mailto:${profile.email}`} icon={Mail}>메일 보내기</Button>
+          <Button href={profile.github} icon={Github} variant="outline">GitHub</Button>
+          <Button href={profile.line.href} icon={MessageCircle} variant="ghost">LINE {profile.line.id}</Button>
         </div>
+      </PageHeader>
 
-        {/* CTA links */}
-        <div className="flex flex-wrap justify-center gap-2 pt-2">
-          <ContactLink href="mailto:jinsik2036@gmail.com" icon={Mail} label="Email" />
-          <ContactLink href="https://github.com/YUJINSIK-momo" icon={Github} label="GitHub" />
-          <ContactLink href="https://www.linkedin.com/in/" icon={Linkedin} label="LinkedIn" />
-        </div>
-      </section>
-
-      {/* 외부 라이브 프로젝트 / 챗봇 — 최상단 노출 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">라이브 프로젝트</h2>
-          <p className="text-xs text-slate-500 mt-1">직접 만들어 배포한 외부 사이트와 챗봇</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {externalProjects.map((p) => (
-            <ExternalProjectCard key={p.href} {...p} />
+      <section className="space-y-5">
+        <SectionHeader eyebrow="Career" title="걸어온 길" description="QA 에서 시작해 커머스 · 자동화를 거쳐 지금은 AI 하네스와 인프라를 만듭니다." />
+        <ol className="grid gap-3 md:grid-cols-2">
+          {career.map((step) => (
+            <li key={step.title}>
+              <Card className="h-full">
+                <Badge tone={step.tone}>{step.phase}</Badge>
+                <h3 className="mt-2.5 text-sm font-semibold text-yuyu-fg">{step.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-yuyu-fg-muted">{step.body}</p>
+              </Card>
+            </li>
           ))}
-
-          {/* LINE 챗봇 카드 */}
-          <a
-            href="https://line.me/R/ti/p/@118htpvo"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group card-hover border border-green-500/20 hover:border-green-500/40 flex flex-col gap-2 transition-all"
-          >
-            <div className="flex items-center gap-2 flex-wrap">
-              <MessageCircle size={16} className="text-green-400" />
-              <h3 className="text-white font-semibold text-sm">LINE 챗봇</h3>
-              <Badge variant="green">Chatbot</Badge>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed flex-1">
-              LINE 메시징 기반 챗봇. 친구 추가 후 대화로 동작을 확인할 수 있습니다.
-              <span className="block mt-1 font-mono text-green-400">LINE ID: @118htpvo</span>
-            </p>
-            <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
-              <span>친구 추가</span>
-              <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </a>
-        </div>
+        </ol>
       </section>
 
-      {/* 강점 4종 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">강점 조합</h2>
-          <p className="text-xs text-slate-500 mt-1">"순수 개발자" 보다 더 잘 들어맞는 4가지 축</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {strengths.map((s) => (
-            <StrengthCard key={s.title} {...s} />
+      <section className="space-y-5">
+        <SectionHeader eyebrow="Skills" title="쓰는 기술" description="실무에서 직접 구축하고 운영한 것만 적었습니다." />
+        <div className="grid gap-3 md:grid-cols-2">
+          {skillGroups.map((group) => (
+            <Card key={group.label}>
+              <span className={cx("inline-block rounded-full border px-2 py-0.5 text-[11px] font-semibold", toneSoft[group.tone])}>
+                {group.label}
+              </span>
+              <TagList items={group.items} className="mt-3" />
+            </Card>
           ))}
         </div>
       </section>
 
-      {/* 한 줄 포지셔닝 */}
-      <section className="card border-cyan-500/30 bg-gradient-to-br from-cyan-500/5 to-blue-500/5">
-        <div className="flex items-start gap-4">
-          <div className="w-11 h-11 rounded-xl bg-cyan-500/15 flex items-center justify-center flex-shrink-0">
-            <MessageSquare size={22} className="text-cyan-400" />
-          </div>
-          <div>
-            <div className="text-xs font-semibold text-cyan-400 uppercase tracking-wider mb-1">Positioning</div>
-            <p className="text-base text-white leading-relaxed">
-              순수 프론트엔드/백엔드 개발자가 아닌,
-              <span className="text-cyan-400 font-bold"> "일본 시장 × 커머스 × 자동화 × LLM"</span>의
-              교차점을 직접 설계하고 코드로 구현할 수 있는 개발자.
-            </p>
-            <p className="text-sm text-slate-400 mt-2 leading-relaxed">
-              비개발자 PM·CS 담당자와도 깊은 대화가 가능하고, Webhook부터 AI 응답(ChatGPT/Claude/Gemini 중 상황별 선택)·DB 저장·Slack 알림까지
-              한 사이클을 혼자 완성합니다.
-            </p>
-          </div>
+      <Card tone="brand" padding="lg" className="text-center">
+        <h2 className="text-lg font-bold text-yuyu-fg">함께 일해 보고 싶으시다면</h2>
+        <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-yuyu-fg-muted">
+          사내 AX(에이전트 개발 환경 · 업무 자동화), AWS 인프라 구축 · 운영, 일본어가 필요한 서비스에 관심이 많습니다. 짧은 메시지도 환영합니다.
+        </p>
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
+          <Button href={`mailto:${profile.email}`} icon={Mail}>{profile.email}</Button>
         </div>
-      </section>
-
-      {/* 기술 스택 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">기술 스택</h2>
-          <p className="text-xs text-slate-500 mt-1">실무에서 쓰거나 학습 중인 것들</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {techGroups.map((g) => (
-            <TechGroup key={g.label} {...g} />
-          ))}
-        </div>
-      </section>
-
-      {/* 경력 흐름 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">경력 흐름</h2>
-          <p className="text-xs text-slate-500 mt-1">QA에서 시작해 풀스택 자동화 개발자로</p>
-        </div>
-        <div className="space-y-3">
-          <TimelineItem
-            icon={GraduationCap}
-            color="slate"
-            phase="이전"
-            title="QA · 5G 시스템 테스트"
-            desc="테스트 케이스 설계, 결함 추적, 검증 사이클 운영. 품질을 코드 단계부터 고민하는 습관."
-          />
-          <TimelineItem
-            icon={ShoppingBag}
-            color="purple"
-            phase="확장"
-            title="WordPress · WooCommerce · Shopify"
-            desc="커머스 사이트 운영·커스터마이즈. 실제 매출이 도는 시스템을 다뤄본 경험."
-          />
-          <TimelineItem
-            icon={Briefcase}
-            color="blue"
-            phase="현재"
-            title="백엔드 · 자동화 시스템 개발"
-            desc="Node.js · TypeScript · Express · PostgreSQL 기반으로 LINE/Slack + 다양한 AI 툴(ChatGPT/Claude/Gemini) 연동 자동화 구축."
-          />
-          <TimelineItem
-            icon={Sparkles}
-            color="cyan"
-            phase="앞으로"
-            title="일본 시장 자동화 솔루션 개발"
-            desc="일본어 CS 자동화 · 커머스 통합 · LLM 응용. 일본 기업 협업에 열려 있음."
-          />
-        </div>
-      </section>
-
-      {/* 이 포트폴리오 안의 프로젝트 */}
-      <section className="space-y-4">
-        <div className="text-center">
-          <h2 className="text-xl font-bold text-white">이 포트폴리오에서 볼 수 있는 것</h2>
-          <p className="text-xs text-slate-500 mt-1">각 페이지가 하나의 작은 데모입니다</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {projects.map((p) => (
-            <ProjectLink key={p.to} {...p} />
-          ))}
-        </div>
-      </section>
-
-      {/* 연락 */}
-      <section className="card border-blue-500/30">
-        <div className="text-center space-y-3">
-          <h2 className="text-lg font-bold text-white">함께 일해보고 싶으시다면</h2>
-          <p className="text-sm text-slate-400 max-w-xl mx-auto leading-relaxed">
-            일본 시장 진출 / 커머스 자동화 / 챗봇·CS 시스템 / LLM 통합 프로젝트에 관심 있습니다.
-            짧은 메시지도 환영합니다.
-          </p>
-          <div className="flex flex-wrap justify-center gap-2 pt-2">
-            <ContactLink href="mailto:jinsik2036@gmail.com" icon={Mail} label="jinsik2036@gmail.com" />
-            <ContactLink href="https://github.com/YUJINSIK-momo" icon={Github} label="@YUJINSIK-momo" />
-            <ContactLink href="https://line.me/R/ti/p/@118htpvo" icon={MessageCircle} label="LINE @118htpvo" />
-          </div>
-        </div>
-      </section>
-    </div>
-  )
-}
-
-/* ─────────── sub components ─────────── */
-
-function ContactLink({ href, icon: Icon, label }: {
-  href: string
-  icon: React.ElementType
-  label: string
-}) {
-  return (
-    <a
-      href={href}
-      target={href.startsWith("http") ? "_blank" : undefined}
-      rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700/50 bg-navy-800/50 hover:bg-navy-700/50 hover:border-blue-500/30 text-slate-300 hover:text-white text-xs font-medium transition-all"
-    >
-      <Icon size={13} />
-      <span>{label}</span>
-    </a>
-  )
-}
-
-const strengthColorMap = {
-  red: { border: "border-red-500/30", bg: "bg-red-500/15 text-red-400" },
-  green: { border: "border-green-500/30", bg: "bg-green-500/15 text-green-400" },
-  purple: { border: "border-purple-500/30", bg: "bg-purple-500/15 text-purple-400" },
-  amber: { border: "border-amber-500/30", bg: "bg-amber-500/15 text-amber-400" },
-}
-
-function StrengthCard({ icon: Icon, title, desc, color }: {
-  icon: React.ElementType
-  title: string
-  desc: string
-  color: keyof typeof strengthColorMap
-}) {
-  const c = strengthColorMap[color]
-  return (
-    <div className={`rounded-xl border bg-navy-900/40 p-4 ${c.border}`}>
-      <div className="flex items-start gap-3">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${c.bg}`}>
-          <Icon size={20} />
-        </div>
-        <div>
-          <h3 className="text-white font-semibold text-sm mb-1">{title}</h3>
-          <p className="text-xs text-slate-400 leading-relaxed">{desc}</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-const techColorMap = {
-  green: { border: "border-green-500/20", text: "text-green-400" },
-  cyan: { border: "border-cyan-500/20", text: "text-cyan-400" },
-  blue: { border: "border-blue-500/20", text: "text-blue-400" },
-  amber: { border: "border-amber-500/20", text: "text-amber-400" },
-  purple: { border: "border-purple-500/20", text: "text-purple-400" },
-  pink: { border: "border-pink-500/20", text: "text-pink-400" },
-}
-
-function TechGroup({ label, items, color }: {
-  label: string
-  items: readonly string[]
-  color: keyof typeof techColorMap
-}) {
-  const c = techColorMap[color]
-  return (
-    <div className={`rounded-xl border bg-navy-900/40 p-4 ${c.border}`}>
-      <div className={`text-xs font-bold uppercase tracking-wider mb-3 ${c.text}`}>{label}</div>
-      <div className="flex flex-wrap gap-1.5">
-        {items.map((item) => (
-          <span key={item} className="text-xs font-mono px-2 py-1 rounded-md bg-slate-800/70 text-slate-300 border border-slate-700/50">
-            {item}
-          </span>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-const timelineColorMap = {
-  slate: { dot: "bg-slate-500", bg: "bg-slate-500/15 text-slate-400" },
-  purple: { dot: "bg-purple-500", bg: "bg-purple-500/15 text-purple-400" },
-  blue: { dot: "bg-blue-500", bg: "bg-blue-500/15 text-blue-400" },
-  cyan: { dot: "bg-cyan-500", bg: "bg-cyan-500/15 text-cyan-400" },
-}
-
-function TimelineItem({ icon: Icon, color, phase, title, desc }: {
-  icon: React.ElementType
-  color: keyof typeof timelineColorMap
-  phase: string
-  title: string
-  desc: string
-}) {
-  const c = timelineColorMap[color]
-  return (
-    <div className="card flex items-start gap-3">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${c.bg}`}>
-        <Icon size={18} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span className={`w-1.5 h-1.5 rounded-full ${c.dot}`} />
-          <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500">{phase}</span>
-        </div>
-        <h3 className="text-white font-semibold text-sm mb-1">{title}</h3>
-        <p className="text-xs text-slate-400 leading-relaxed">{desc}</p>
-      </div>
-    </div>
-  )
-}
-
-function ProjectLink({ to, label, desc, icon: Icon }: {
-  to: string
-  label: string
-  desc: string
-  icon: React.ElementType
-}) {
-  return (
-    <Link
-      to={to}
-      className="group card-hover border border-slate-700/50 hover:border-blue-500/30 flex flex-col gap-2 transition-all"
-    >
-      <div className="flex items-center gap-2">
-        <Icon size={16} className="text-blue-400" />
-        <h3 className="text-white font-semibold text-sm">{label}</h3>
-      </div>
-      <p className="text-xs text-slate-400 leading-relaxed flex-1">{desc}</p>
-      <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-blue-400 transition-colors">
-        <span>보기</span>
-        <ArrowRight size={11} className="group-hover:translate-x-0.5 transition-transform" />
-      </div>
-    </Link>
-  )
-}
-
-const extColorMap = {
-  amber: { border: "border-amber-500/20 hover:border-amber-500/40", icon: "text-amber-400" },
-  purple: { border: "border-purple-500/20 hover:border-purple-500/40", icon: "text-purple-400" },
-  cyan: { border: "border-cyan-500/20 hover:border-cyan-500/40", icon: "text-cyan-400" },
-  pink: { border: "border-pink-500/20 hover:border-pink-500/40", icon: "text-pink-400" },
-}
-
-function ExternalProjectCard({ href, label, desc, icon: Icon, color, tag }: {
-  href: string
-  label: string
-  desc: string
-  icon: React.ElementType
-  color: keyof typeof extColorMap
-  tag: string
-}) {
-  const c = extColorMap[color]
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group card-hover border ${c.border} flex flex-col gap-2 transition-all`}
-    >
-      <div className="flex items-center gap-2 flex-wrap">
-        <Icon size={16} className={c.icon} />
-        <h3 className="text-white font-semibold text-sm">{label}</h3>
-        <Badge variant={color}>{tag}</Badge>
-      </div>
-      <p className="text-xs text-slate-400 leading-relaxed flex-1">{desc}</p>
-      <div className="flex items-center gap-1 text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
-        <span>사이트 열기</span>
-        <ExternalLink size={11} className="group-hover:translate-x-0.5 transition-transform" />
-      </div>
-    </a>
+      </Card>
+    </Container>
   )
 }
