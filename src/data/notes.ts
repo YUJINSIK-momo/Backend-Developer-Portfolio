@@ -59,5 +59,7 @@ export const allNotes = noteGroups.flatMap((group) =>
 )
 
 export function findNote(pathname: string) {
-  return allNotes.find((note) => note.path === pathname)
+  // 정적 라우트 페이지로 들어오면 주소 끝에 / 가 붙는다
+  const path = pathname.replace(/\/+$/, "") || "/"
+  return allNotes.find((note) => note.path === path)
 }
