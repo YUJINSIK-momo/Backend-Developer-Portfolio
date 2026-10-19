@@ -8,7 +8,7 @@ AI 가 일하는 길을 깔고, 사람이 결정하는 자리를 지키는 AI ·
 |---|---|
 | [프로젝트](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/work) | 운영 중인 회사 시스템과 개인 프로젝트 — 분야별 필터 |
 | [디자인 시스템 하네스](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/work/design-harness) | Slack 화면 요청 → 에이전트 화면 생성 → 배포 → 승인 버튼 |
-| [블루맵스 상권 분석 서비스](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/work/blue-maps) | Terraform AWS 인프라 · 보안 설계 · GPT 리뷰 릴리스 하네스 |
+| [상권 프로젝트](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/work/trade-area) | Terraform AWS 인프라 · 보안 설계 · GPT 리뷰 릴리스 하네스 |
 | [AI · AX](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/ax) | 하네스 엔지니어링 원칙과 부품 |
 | [학습 노트](https://yujinsik-momo.github.io/Backend-Developer-Portfolio/notes) | LLM · Claude Code · 백엔드 · 인프라 개념 정리 18편 |
 

@@ -21,7 +21,7 @@ export function AxPage() {
         <div className="flex flex-wrap gap-2">
           <Button href={pipelineDocsUrl} icon={ExternalLink}>하네스 사용 설명서</Button>
           <Button to="/work/design-harness" variant="outline" trailingIcon={ArrowRight}>디자인 시스템 하네스</Button>
-          <Button to="/work/blue-maps#release" variant="ghost" trailingIcon={ArrowRight}>릴리스 하네스</Button>
+          <Button to="/work/trade-area#release" variant="ghost" trailingIcon={ArrowRight}>릴리스 하네스</Button>
         </div>
       </PageHeader>
 

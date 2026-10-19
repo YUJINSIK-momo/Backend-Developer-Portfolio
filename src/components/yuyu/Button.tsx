@@ -16,6 +16,9 @@ interface ButtonProps {
   /** 바깥 주소 — 새 탭으로 연다 */
   href?: string
   onClick?: () => void
+  disabled?: boolean
+  /** 글자 없이 아이콘만 보일 때 읽어 줄 이름 */
+  label?: string
   className?: string
 }
 
@@ -32,12 +35,13 @@ const sizeClass: Record<Size, string> = {
 
 export function Button({
   children, variant = "solid", size = "md", icon: Icon, trailingIcon: TrailingIcon,
-  to, href, onClick, className,
+  to, href, onClick, disabled, label, className,
 }: ButtonProps) {
   const classes = cx(
     "inline-flex items-center justify-center rounded-yuyu-md font-medium transition-colors whitespace-nowrap",
     variantClass[variant],
     sizeClass[size],
+    disabled && "pointer-events-none opacity-40",
     className,
   )
   const iconSize = size === "sm" ? 14 : 16
@@ -63,5 +67,9 @@ export function Button({
       </a>
     )
   }
-  return <button type="button" onClick={onClick} className={classes}>{content}</button>
+  return (
+    <button type="button" onClick={onClick} disabled={disabled} aria-label={label} className={classes}>
+      {content}
+    </button>
+  )
 }

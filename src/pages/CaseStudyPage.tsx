@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, ExternalLink, Lock } from "lucide-react"
 import {
   Badge, Button, Card, Container, PageHeader, Pipeline, SectionHeader, Stat, Steps, TagList, cx, toneText,
 } from "../components/yuyu"
+import { OpsDashboardDemo } from "../components/ops/OpsDashboardDemo"
 import { caseStudies } from "../data/caseStudies"
 import { categories, findProject } from "../data/projects"
 import type { CaseSection } from "../types/portfolio"
@@ -54,6 +55,8 @@ function SectionBody({ section }: { section: CaseSection }) {
           </table>
         </div>
       )
+    case "demo":
+      return <OpsDashboardDemo />
     case "bullets":
       return (
         <Card padding="lg">
