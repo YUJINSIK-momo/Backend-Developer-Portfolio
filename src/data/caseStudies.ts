@@ -157,7 +157,7 @@ export const caseStudies: Record<string, CaseStudy> = {
           ["CloudWatch", "로그 30일, 오류 로그 지표 필터, 알람 12개, ETL 성공 지표"],
           ["EventBridge · SNS · Amazon Q Developer in chat", "알람을 한국어 요약 카드로 바꿔 Slack 으로"],
           ["EventBridge Scheduler · SQS", "수집 스케줄 4개와 실패 DLQ"],
-          ["IAM · GitHub OIDC", "OIDC provider 와 역할 6종 — 배포 · 작업 · 실행 · 스케줄러 · 알림"],
+          ["IAM · GitHub OIDC", "OIDC provider 와 역할 6종 — 배포 · 작업 · 실행 · 스케줄러 · 알림 등"],
           ["SES · Budgets", "인증 메일(DKIM · SPF · DMARC), 태그 기준 월 예산"],
         ],
       },
