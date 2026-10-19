@@ -14,11 +14,18 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # 데이터 정합성과 「공개해도 되는 내용만 있는지」 검사 — 실패하면 배포하지 않는다
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
