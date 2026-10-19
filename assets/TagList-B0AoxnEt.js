@@ -1,0 +1,1 @@
+import{j as r,c as t}from"./index-3zaHtpLG.js";function a({items:u,className:s}){return r.jsx("ul",{className:t("flex flex-wrap gap-1.5",s),children:u.map(e=>r.jsx("li",{className:"rounded-yuyu-sm border border-yuyu-line/60 bg-yuyu-bg/60 px-2 py-0.5 font-mono text-[11px] text-yuyu-fg-muted",children:e},e))})}export{a as T};
